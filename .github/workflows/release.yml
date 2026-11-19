@@ -1,0 +1,80 @@
+# Builds Musica for Windows, macOS (Apple Silicon + Intel) and Linux, and attaches the installers
+# to a draft GitHub Release. Trigger it by pushing a version tag, e.g.:
+#   git tag v0.1.0 && git push origin v0.1.0
+# or run it by hand from the Actions tab ("Run workflow").
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS (Apple Silicon)
+            platform: macos-latest
+            args: --target aarch64-apple-darwin
+          - name: macOS (Intel)
+            platform: macos-latest
+            args: --target x86_64-apple-darwin
+          - name: Linux
+            platform: ubuntu-22.04
+            args: ""
+          - name: Windows
+            platform: windows-latest
+            args: ""
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Linux build dependencies
+        if: startsWith(matrix.platform, 'ubuntu')
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ startsWith(matrix.platform, 'macos') && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
+      - name: Install frontend tooling
+        run: npm ci
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__ # replaced with the version in src-tauri/tauri.conf.json
+          releaseName: Musica v__VERSION__
+          releaseBody: |
+            Download the installer for your system from the assets below.
+
+            | System | File |
+            |---|---|
+            | Windows | `Musica_…_x64-setup.exe` (or the `.msi`) |
+            | macOS, Apple Silicon | `Musica_…_aarch64.dmg` |
+            | macOS, Intel | `Musica_…_x64.dmg` |
+            | Linux | `.AppImage` (any distribution), `.deb` (Debian/Ubuntu) or `.rpm` (Fedora/openSUSE) |
+
+            These builds are not code-signed yet; see the README for how to open them the first time.
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}
