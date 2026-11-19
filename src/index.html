@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Musica</title>
+<style>
+@font-face{font-family:Inter;font-style:normal;font-weight:400;font-display:swap;src:url(fonts/inter-latin-400-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Inter;font-style:normal;font-weight:400;font-display:swap;src:url(fonts/inter-latin-ext-400-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:Inter;font-style:normal;font-weight:500;font-display:swap;src:url(fonts/inter-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Inter;font-style:normal;font-weight:500;font-display:swap;src:url(fonts/inter-latin-ext-500-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:Inter;font-style:normal;font-weight:600;font-display:swap;src:url(fonts/inter-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Inter;font-style:normal;font-weight:600;font-display:swap;src:url(fonts/inter-latin-ext-600-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:Inter;font-style:normal;font-weight:700;font-display:swap;src:url(fonts/inter-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Inter;font-style:normal;font-weight:700;font-display:swap;src:url(fonts/inter-latin-ext-700-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+:root{color-scheme:light;--bg:#F7F7F5;--side:#F1F1EE;--panel:#FFFFFF;--text:#18181B;--muted:#5B5B63;--line:#E2E2E5;--hover:#EBEBE7;--sel:#E3F0ED;--accent:#0F766E;--onAccent:#FFFFFF;--track:#DEDEE2;--seg:#EDEDEA;--segOn:#FFFFFF;--vizBg:#F7F7F5;--overlay:rgba(255,255,255,.86)}
+[data-theme=dark]{color-scheme:dark;--bg:#0F0F11;--side:#131315;--panel:#161619;--text:#F2F2F3;--muted:#A3A3AD;--line:#2A2A2F;--hover:#1D1D21;--sel:#14302C;--accent:#5EEAD4;--onAccent:#082A26;--track:#2C2C31;--seg:#1F1F23;--segOn:#2E2E34;--vizBg:#0C0C0E;--overlay:rgba(22,22,25,.86)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font:14px/1.4 Inter,system-ui,sans-serif}
+button{font:inherit;color:inherit}
+.app{height:100vh;display:flex;flex-direction:column}
+.top{flex:1;min-height:0;display:flex;flex-wrap:wrap}
+/* sidebar */
+aside.side{position:relative;flex:0 0 var(--sideW,260px);width:var(--sideW,260px);min-width:0;height:100%;display:flex;flex-direction:column;background:var(--side);border-right:1px solid var(--line)}
+.resizer{position:absolute;top:0;right:-5px;width:10px;height:100%;cursor:col-resize;z-index:5;touch-action:none;outline:none}
+.resizer::after{content:"";position:absolute;top:0;bottom:0;left:4px;width:2px;background:transparent;transition:background .15s}
+.resizer:hover::after,.resizer:focus-visible::after,.resizer.active::after{background:var(--accent)}
+body.resizing{cursor:col-resize;user-select:none}
+.sideHead{padding:22px 20px 12px;display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rowBetween{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.folderBtn{display:flex;align-items:center;gap:6px;height:32px;max-width:170px;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);font-size:12px;cursor:pointer}
+.folderBtn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.search{display:flex;align-items:center;gap:8px;height:38px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--muted)}
+.search input{flex:1;min-width:0;border:0;outline:none;background:transparent;color:var(--text);font:inherit;font-size:13px}
+.search:focus-within{border-color:var(--accent)}
+.listWrap{flex:1;min-height:0;display:flex}
+nav.artists{flex:1;min-width:0;overflow-y:auto;padding:0 8px 16px 12px;display:flex;flex-direction:column;gap:2px}
+.letter{padding:12px 8px 4px;font-size:11px;font-weight:600;color:var(--muted)}
+.artistBtn{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:36px;padding:0 10px;border:0;border-radius:8px;background:transparent;text-align:left;font-size:13.5px;cursor:pointer}
+.artistBtn:hover{background:var(--hover)}
+.artistBtn[aria-current=true]{background:var(--sel);font-weight:600}
+.artistBtn span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.artistBtn span:last-child{font-size:12px;font-weight:400;color:var(--muted)}
+.rail{width:20px;flex:none;display:flex;flex-direction:column;align-items:center;padding-top:6px}
+.rail button{border:0;background:transparent;font-size:10px;line-height:15px;font-weight:500;padding:0 2px;cursor:pointer;color:var(--muted)}
+.rail button.has{color:var(--text)}
+.empty{padding:16px 10px;font-size:13px;color:var(--muted)}
+/* main */
+main{flex:1 1 0;min-width:0;height:100%;position:relative;background:var(--panel);overflow:hidden}
+.page{position:absolute;inset:0;overflow-y:auto;padding:40px 48px 48px}
+h1{margin:6px 0;font-size:40px;line-height:1.1;font-weight:600;letter-spacing:-.02em}
+.meta{font-size:13px;color:var(--muted)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.pill{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 20px;border-radius:22px;border:1px solid var(--line);background:transparent;font-weight:500;cursor:pointer}
+.pill.primary{border:0;background:var(--accent);color:var(--onAccent);font-weight:600}
+.albums{display:flex;flex-direction:column;gap:44px;margin-top:40px}
+.album{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+.cover{position:relative;flex:none;overflow:hidden;background-size:cover;background-position:center}
+.cover i{position:absolute;display:block}
+.albumBody{flex:1 1 320px;min-width:0}
+h2{margin:0;font-size:20px;font-weight:600;letter-spacing:-.01em}
+.tracks{display:flex;flex-direction:column;margin-top:14px}
+.trk{display:grid;grid-template-columns:32px minmax(0,1fr) 56px;align-items:center;width:100%;min-height:44px;padding:0 12px;border:0;border-radius:8px;background:transparent;text-align:left;cursor:pointer}
+.trk:hover{background:var(--hover)}
+.trk[aria-current=true]{background:var(--sel);font-weight:600}
+.trk .n{font-size:13px;color:var(--muted);display:flex;align-items:center}
+.trk .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trk .d{text-align:right;font-size:13px;font-weight:400;color:var(--muted);font-variant-numeric:tabular-nums}
+.note{margin-top:28px;font-size:12px;color:var(--muted)}
+.welcome{max-width:520px;margin:12vh auto 0;text-align:center}
+.welcome img{width:112px;height:112px}
+.welcome h1{margin:18px 0 10px}
+.welcome p{color:var(--muted);font-size:14px;line-height:1.55;margin:0 0 24px}
+.miniBtn{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:8px;background:var(--panel);cursor:pointer;flex:none}
+.miniBtn:disabled{opacity:.4;cursor:default}
+.folderRow{display:flex;gap:6px;min-width:0}
+/* visualizer */
+#vizWrap{position:absolute;inset:0;background:var(--vizBg);display:none}
+#vizWrap.on{display:block}
+#viz{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+#viz.drag{cursor:grabbing}
+.vizTop{position:absolute;left:0;right:0;top:0;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:22px 24px;pointer-events:none}
+.vizTop > *{pointer-events:auto}
+.np .t{margin-top:4px;font-size:16px;font-weight:600}
+.np .t span{font-weight:400;color:var(--muted)}
+.vizBtns{display:flex;gap:8px}
+.sq{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:12px;background:var(--overlay);cursor:pointer;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.sq[aria-pressed=true]{background:var(--sel);color:var(--accent)}
+#vizSettings{position:absolute;top:76px;right:24px;width:290px;padding:14px 16px 10px;border:1px solid var(--line);border-radius:14px;background:var(--overlay);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);display:none}
+#vizSettings.on{display:block}
+.set{display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center;margin:8px 0}
+.set label{font-size:13px}
+.set output{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.set input[type=range]{grid-column:1/-1;width:100%;margin:0;accent-color:var(--accent)}
+.set select{grid-column:1/-1;height:32px;border:1px solid var(--line);border-radius:8px;background-color:var(--seg);color:var(--text);font:inherit;font-size:13px;padding:0 30px 0 10px;-webkit-appearance:none;appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.set select option{background:var(--panel);color:var(--text)}
+.check{display:flex;align-items:center;gap:8px;font-size:13px;margin:8px 0;cursor:pointer}
+.check input{accent-color:var(--accent);width:16px;height:16px;margin:0}
+.swatch{display:flex;height:8px;border-radius:4px;overflow:hidden;margin:4px 0 2px}
+.swatch i{flex:1}
+.vizMsg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);max-width:420px;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--overlay);font-size:13px;display:none}
+/* transport */
+footer{flex:none;min-height:88px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr) minmax(0,1fr);align-items:center;gap:24px;padding:8px 24px;border-top:1px solid var(--line);background:var(--panel)}
+.now{display:flex;align-items:center;gap:12px;min-width:0}
+.now .txt{min-width:0}
+.now .t{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.now .a{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.center{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.ctrls{display:flex;align-items:center;gap:6px}
+.ib{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:22px;background:transparent;cursor:pointer;color:var(--text)}
+.ib.dim{color:var(--muted)}
+.ib.on{color:var(--accent)}
+.ib:hover{background:var(--hover)}
+.ib.play{width:48px;height:48px;border-radius:24px;background:var(--text);color:var(--panel)}
+.ib.play:hover{background:var(--text);opacity:.9}
+.prog{width:100%;max-width:560px;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.prog span{width:40px}
+.prog span:first-child{text-align:right}
+input.bar{flex:1;min-width:40px;accent-color:var(--accent);margin:0;height:16px}
+.right{display:flex;align-items:center;justify-content:flex-end;gap:4px;min-width:0}
+.vol{display:flex;align-items:center;gap:8px;margin-right:8px;color:var(--muted)}
+.vol input{width:84px}
+.rb{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:12px;background:transparent;cursor:pointer}
+.rb:hover{background:var(--hover)}
+.rb[aria-pressed=true]{background:var(--sel);color:var(--accent)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+#toast{position:fixed;left:50%;bottom:104px;transform:translateX(-50%);padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--panel);font-size:13px;box-shadow:0 4px 18px rgba(0,0,0,.18);opacity:0;transition:opacity .25s;pointer-events:none;max-width:calc(100% - 32px)}
+#toast.on{opacity:1}
+@media (max-width:800px){footer{grid-template-columns:1fr;gap:6px;padding:10px 16px}.right{justify-content:center}.page{padding:28px 20px}h1{font-size:30px}aside.side{flex:1 1 100%;width:100%;height:auto;max-height:42vh}.resizer{display:none}main{flex:1 1 100%}main{height:auto;min-height:50vh}.top{overflow-y:auto}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="top">
+  <aside class="side">
+    <div class="sideHead">
+      <div class="rowBetween">
+        <span class="eyebrow">Library</span>
+        <div class="folderRow">
+          <button class="folderBtn" id="folderBtn" type="button" aria-label="Choose music folder" title="Choose music folder (Ctrl/⌘+O)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <span id="folderName">Choose folder</span>
+          </button>
+          <button class="miniBtn" id="rescanBtn" type="button" aria-label="Rescan music folder" title="Rescan folder" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+          </button>
+        </div>
+      </div>
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="sr">Search</span>
+        <input id="search" type="search" placeholder="Search artists, albums, tracks">
+      </label>
+      <div class="rowBetween" style="padding-top:6px"><span style="font-size:13px;font-weight:600">Artists</span><span class="meta" id="sortNote">A–Z</span></div>
+    </div>
+    <div class="listWrap">
+      <nav class="artists" id="artists" aria-label="Artists"></nav>
+      <div class="rail" id="rail" aria-label="Jump to letter"></div>
+    </div>
+    <div class="resizer" id="resizer" role="separator" aria-orientation="vertical" aria-label="Resize sidebar" aria-valuemin="200" aria-valuemax="480" tabindex="0" title="Drag to resize · double-click to reset"></div>
+  </aside>
+
+  <main>
+    <div class="page" id="page"></div>
+    <div id="vizWrap" aria-label="Visualizer">
+      <canvas id="viz" role="img" aria-label="Strange attractor particle visualization"></canvas>
+      <div class="vizTop">
+        <div class="np"><div class="eyebrow">Now playing</div><div class="t" id="vizNow"></div></div>
+        <div class="vizBtns">
+          <button class="sq" id="bloomBtn" aria-pressed="true" aria-label="Onset bloom: on" title="Onset bloom (B)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="2.2" fill="currentColor"/><circle cx="12" cy="12" r="5.8" opacity=".75"/><circle cx="12" cy="12" r="9.4" stroke-dasharray="2.2 2.6" opacity=".5"/></svg>
+          </button>
+          <button class="sq" id="setBtn" aria-pressed="false" aria-label="Visualizer settings" title="Settings">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="9" cy="6" r="2" fill="var(--overlay)"/><circle cx="15" cy="12" r="2" fill="var(--overlay)"/><circle cx="7" cy="18" r="2" fill="var(--overlay)"/></svg>
+          </button>
+          <button class="sq" id="fsBtn" aria-label="Fullscreen" title="Fullscreen (F)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+          </button>
+          <button class="sq" id="closeViz" aria-label="Close visualizer" title="Close (Esc)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div id="vizSettings" aria-label="Visualizer settings">
+        <div class="eyebrow" style="margin-bottom:6px">Aizawa · audio coupling</div>
+        <div class="set"><label for="sGeo">Shape (bass → f, brightness → e)</label><output id="oGeo"></output><input id="sGeo" type="range" min="0" max="100" value="60"></div>
+        <div class="set"><label for="sMot">Motion (loudness, onsets)</label><output id="oMot"></output><input id="sMot" type="range" min="0" max="100" value="60"></div>
+        <div class="set"><label for="sOns">Onset bloom</label><output id="oOns"></output><input id="sOns" type="range" min="0" max="100" value="70"></div>
+        <div class="set"><label for="sCol">Colour (bass → temperature, loudness → glow)</label><output id="oCol"></output><input id="sCol" type="range" min="0" max="100" value="70"></div>
+        <div class="swatch" aria-hidden="true"><i id="sw0"></i><i id="sw1"></i><i id="sw2"></i></div>
+        <div class="set"><label for="sSharp">Palette contrast</label><output id="oSharp"></output><input id="sSharp" type="range" min="0" max="100" value="60"></div>
+        <div class="set"><label for="sTrail">Trail length</label><output id="oTrail"></output><input id="sTrail" type="range" min="0" max="100" value="55"></div>
+        <div class="set"><label for="sCount">Particles</label><output id="oFps"></output>
+          <select id="sCount"><option value="256">65 k</option><option value="512" selected>262 k</option><option value="768">590 k</option><option value="1024">1.05 M</option></select></div>
+        <label class="check"><input type="checkbox" id="cWander" checked> Wandering camera</label>
+      </div>
+      <div class="vizMsg" id="vizMsg"></div>
+    </div>
+  </main>
+</div>
+
+<footer>
+  <div class="now">
+    <div id="npCover"></div>
+    <div class="txt"><div class="t" id="npTitle">Nothing playing</div><div class="a" id="npArtist">Choose a track</div></div>
+  </div>
+  <div class="center">
+    <div class="ctrls">
+      <button class="ib dim" id="shuffleBtn" aria-label="Shuffle" aria-pressed="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>
+      </button>
+      <button class="ib" id="prevBtn" aria-label="Previous track">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M19 19L9 12l10-7z"/><line x1="5" y1="5" x2="5" y2="19"/></svg>
+      </button>
+      <button class="ib play" id="playBtn" aria-label="Play">
+        <svg id="icPlay" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-left:2px"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+        <svg id="icPause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+      </button>
+      <button class="ib" id="nextBtn" aria-label="Next track">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M5 5l10 7-10 7z"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+      </button>
+      <button class="ib dim" id="repeatBtn" aria-label="Repeat: off">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11V10a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/><text id="rep1" x="12" y="15.5" font-size="7" font-weight="700" text-anchor="middle" fill="currentColor" stroke="none" style="display:none">1</text></svg>
+      </button>
+    </div>
+    <div class="prog"><span id="tPos">0:00</span><label for="seek" class="sr">Seek</label><input class="bar" id="seek" type="range" min="0" max="1000" value="0"><span id="tDur">0:00</span></div>
+  </div>
+  <div class="right">
+    <div class="vol">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>
+      <label for="vol" class="sr">Volume</label><input class="bar" id="vol" type="range" min="0" max="100" value="80">
+    </div>
+    <button class="rb" id="vizBtn" aria-label="Visualizer (V)" aria-pressed="false" title="Visualizer (V)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="10" x2="4" y2="14"/><line x1="8" y1="6" x2="8" y2="18"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="16" y1="8" x2="16" y2="16"/><line x1="20" y1="11" x2="20" y2="13"/></svg>
+    </button>
+    <button class="rb" id="themeBtn" aria-label="Switch to light mode" title="Theme (L)">
+      <svg id="icSun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <svg id="icMoon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</footer>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+const fmt = t => { if (!isFinite(t) || t == null) return "0:00"; t = Math.max(0, Math.floor(t)); return Math.floor(t / 60) + ":" + String(t % 60).padStart(2, "0"); };
+const parseDur = s => { const p = s.split(":"); return Number(p[0]) * 60 + Number(p[1]); };
+let toastTimer = 0;
+function toast(msg) { const t = $("#toast"); t.textContent = msg; t.classList.add("on"); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("on"), 3200); }
+
+/* =====================  Visualizer: shared state (engine is in the next script)  ===================== */
+const ATTRS = {
+  aizawa: {
+    name: "Aizawa", type: 1, tps: 1.6, dt: 0.012, vMed: 1.17, v90: 5.0, scale: 1 / 1.7,
+    base: { a: 0.95, b: 0.7, c: 0.6, d: 3.5, e: 0.165, f: 0.155 },
+    mods: [ { p: "f", feat: "bass", lo: 0.135, hi: 0.175 }, { p: "e", feat: "bright", lo: 0.15, hi: 0.18 } ],
+    pack: P => [P.a, P.b, P.c, P.d, P.e, P.f, 0, 0],
+    center: () => [0, 0, 0.65],
+    basis: [1, 0, 0, 0, 1, 0, 0, 0, 1],
+    box: [-6, -6, -6, 6, 6, 6], spawn: [0.1, 0, 0], spawnSize: [1, 1, 1]
+  }
+};
+const THEMES = {
+  dark: { bg: [0.047, 0.047, 0.055], light: 0,
+    cool: [[0.22, 0.12, 0.85], [0.05, 0.80, 1.00], [0.85, 1.00, 0.95]],
+    mid:  [[0.05, 0.28, 0.90], [0.05, 0.95, 0.70], [1.00, 0.70, 0.15]],
+    warm: [[0.80, 0.05, 0.45], [1.00, 0.35, 0.08], [1.00, 0.95, 0.30]] },
+  light: { bg: [0.969, 0.969, 0.961], light: 1,
+    cool: [[0.20, 0.10, 0.62], [0.00, 0.45, 0.80], [0.00, 0.62, 0.55]],
+    mid:  [[0.06, 0.16, 0.60], [0.00, 0.52, 0.40], [0.88, 0.36, 0.02]],
+    warm: [[0.62, 0.03, 0.36], [0.88, 0.18, 0.05], [0.85, 0.60, 0.00]] }
+};
+const mix3 = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+const sig = (x, k) => k < 0.01 ? x : clamp(0.5 + 0.5 * Math.tanh(k * (x - 0.5)) / Math.tanh(0.5 * k), 0, 1);
+const LIGHT_GAIN = 1.6;
+let theme = THEMES.dark, cur = ATTRS.aizawa;
+let palK = 6, colDepth = 0.7, palNow = THEMES.dark.mid, palGL = THEMES.dark.mid;
+let geoDepth = 0.6, motDepth = 0.6, onsDepth = 0.7, onsetMode = "bloom";
+let engineOK = false, engineReady = false, vizOpen = false, rafId = 0, dragging = false;
+
+function computePalette() {
+  const th = theme;
+  const temp = sig(clamp(0.5 + colDepth * 1.6 * (feat.cBass - 0.5), 0, 1), palK);
+  const sat = 1 + colDepth * 1.6 * (feat.cLoud - 0.5);
+  const glow = 1 + colDepth * 0.6 * (feat.cLoud - 0.5);
+  palNow = [0, 1, 2].map(i => {
+    let c = temp < 0.5 ? mix3(th.cool[i], th.mid[i], temp * 2) : mix3(th.mid[i], th.warm[i], temp * 2 - 1);
+    const L = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+    c = c.map(v => clamp(L + (v - L) * sat, 0, 1));
+    if (!th.light) c = c.map(v => Math.min(1, v * glow));
+    return c;
+  });
+  palGL = th.light ? palNow.map(c => c.map(v => -Math.log(Math.max(v, 0.04)) * glow * LIGHT_GAIN)) : palNow;
+}
+
+/* =====================  Audio + features  ===================== */
+const audio = new Audio(); audio.preload = "auto";
+let actx = null, analyser, fbuf, tbuf, prevMag;
+function ensureAudio() {
+  if (actx) return;
+  actx = new (window.AudioContext || window.webkitAudioContext)();
+  analyser = actx.createAnalyser(); analyser.fftSize = 2048; analyser.smoothingTimeConstant = 0;
+  const node = actx.createMediaElementSource(audio);
+  node.connect(analyser); analyser.connect(actx.destination);
+  fbuf = new Float32Array(analyser.frequencyBinCount); tbuf = new Float32Array(analyser.fftSize);
+  prevMag = new Float32Array(analyser.frequencyBinCount);
+}
+const feat = { bass: 0.5, loud: 0.5, bright: 0.5, onset: 0, cBass: 0.5, cLoud: 0.5 };
+let bassPeak = 1e-4, fluxMean = 0, lastOnset = -1, impulse = 0, tNow = 0, bloomTarget = 0, bloomEnv = 0;
+function follow(y, x, dt, up, down) { const tau = x > y ? up : down; return y + (x - y) * (1 - Math.exp(-dt / tau)); }
+function updateFeatures(dt) {
+  let rb = 0.5, rl = 0.5, rc = 0.5;
+  if (actx && !audio.paused && current) {
+    analyser.getFloatFrequencyData(fbuf); analyser.getFloatTimeDomainData(tbuf);
+    const binHz = actx.sampleRate / analyser.fftSize;
+    let bs = 0, num = 0, den = 0, flux = 0;
+    for (let i = 1; i < fbuf.length; i++) {
+      const m = Math.pow(10, fbuf[i] / 20), f = i * binHz;
+      if (f < 150) bs += m * m;
+      if (f > 60 && f < 12000) { num += f * m; den += m; }
+      if (f < 8000) { const d = m - prevMag[i]; if (d > 0) flux += d; }
+      prevMag[i] = m;
+    }
+    const bass = Math.sqrt(bs);
+    bassPeak = Math.max(bass, bassPeak * Math.exp(-dt / 20), 1e-4);
+    rb = clamp(bass / bassPeak, 0, 1);
+    let ss = 0; for (let i = 0; i < tbuf.length; i++) ss += tbuf[i] * tbuf[i];
+    rl = clamp((20 * Math.log10(Math.sqrt(ss / tbuf.length) + 1e-9) + 42) / 36, 0, 1);
+    rc = den > 0 ? clamp(Math.log((num / den) / 300) / Math.log(4000 / 300), 0, 1) : 0.5;
+    fluxMean += (flux - fluxMean) * (1 - Math.exp(-dt / 0.6));
+    if (flux > fluxMean * 1.5 + 0.005 && tNow - lastOnset > 0.12) { impulse = 1; lastOnset = tNow; if (onsetMode === "bloom") bloomTarget = 1; }
+  }
+  impulse *= Math.exp(-dt / 0.18);
+  bloomTarget *= Math.exp(-dt / 0.05);
+  bloomEnv = follow(bloomEnv, bloomTarget, dt, 0.03, 0.30);
+  feat.bass = follow(feat.bass, rb, dt, 0.12, 0.45);
+  feat.bright = follow(feat.bright, rc, dt, 0.25, 0.6);
+  feat.loud = follow(feat.loud, rl, dt, 0.05, 0.18);
+  feat.onset = impulse;
+  feat.cBass = follow(feat.cBass, rb, dt, 0.20, 0.70);
+  feat.cLoud = follow(feat.cLoud, rl, dt, 0.06, 0.25);
+}
+function computeParams() {
+  const Q = { ...cur.base };
+  for (const m of cur.mods) Q[m.p] = cur.base[m.p] + geoDepth * (feat[m.feat] - 0.5) * (m.hi - m.lo);
+  P = Q;
+  speedMul = clamp(1 + motDepth * (1.4 * (feat.loud - 0.5) + 0.9 * feat.onset), 0.35, 2.6);
+}
+
+/* =====================  Library (from the native scan)  ===================== */
+const invoke = (cmd, args) => window.__TAURI__.core.invoke(cmd, args);
+// Placeholder covers for albums without artwork: flat geometric tiles.
+const COVER_PALETTE = [
+  ["#DCCFB4", "#6E5530", 44, 28, 20, 78], ["#2E3440", "#D08770", 30, 56, 18, 70], ["#E6DFEE", "#5B4B8A", 52, 24, 26, 86],
+  ["#CFE3E6", "#2F6F7E", 40, 50, 30, 24], ["#1F2A30", "#9CC3C9", 26, 22, 54, 40], ["#EDE6DA", "#8C2F39", 36, 32, 32, 82],
+  ["#F2D6C9", "#A0412D", 48, 40, 10, 74], ["#213A3A", "#E3B55B", 34, 18, 18, 66], ["#EFEDE6", "#1F1F1F", 38, 31, 22, 76],
+  ["#1E1E22", "#E8E3D3", 22, 60, 56, 30], ["#DDE6D5", "#4E6B3A", 42, 46, 40, 20], ["#F4E3B5", "#3D5A80", 46, 12, 30, 84]
+];
+const geo = a => ({ bg: a[0], fg: a[1], s: a[2], x: a[3], y: a[4], ly: a[5] });
+function hash(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function sortKey(name) { return name.replace(/^the\s+/i, "").toLocaleLowerCase(); }
+function cleanTitle(fn) {
+  const base = fn.replace(/\.[^.]+$/, "");
+  const m = base.match(/^(?:(\d{1,2})[-.](\d{1,3})|(\d{1,3}))[\s._-]+(.*)$/);
+  if (m) return { n: Number(m[2] || m[3]), title: m[4].trim() || base };
+  return { n: null, title: base };
+}
+const parentDir = d => d.slice(0, Math.max(d.lastIndexOf("/"), d.lastIndexOf("\\")));
+const lastName = d => d.slice(Math.max(d.lastIndexOf("/"), d.lastIndexOf("\\")) + 1);
+let library = [], libRoot = null, libName = "", albumSeq = 0;
+
+/* Artist = album artist tag → artist tag → folder name; album = album tag → folder name.
+   Albums are ordered by year, tracks by disc and track number (then file name). */
+function buildLibrary(scan) {
+  const artists = new Map();
+  for (const t of scan.tracks) {
+    let rd = t.relDirs, discFromDir = null;
+    const dm = rd.length ? rd[rd.length - 1].match(/^(?:cd|disc|disk)\s*(\d+)$/i) : null;
+    if (dm) { discFromDir = Number(dm[1]); rd = rd.slice(0, -1); }   // "Artist/Album/CD2/…" → album "Album", disc 2
+    const artist = t.albumArtist || t.artist || (rd.length >= 2 ? rd[rd.length - 2] : rd.length === 1 ? rd[0] : "Unknown Artist");
+    const album = t.album || (rd.length ? rd[rd.length - 1] : scan.rootName);
+    const ct = cleanTitle(t.fileName);
+    const trk = { path: t.path, title: t.title || ct.title, n: t.track ?? ct.n, disc: t.disc || discFromDir || 1, dur: t.duration || null,
+      fileName: t.fileName, dir: t.dir, hasPicture: t.hasPicture, trackArtist: t.artist };
+    const aKey = artist.toLocaleLowerCase();
+    if (!artists.has(aKey)) artists.set(aKey, { name: artist, sort: sortKey(artist), albums: new Map() });
+    const A = artists.get(aKey), bKey = album.toLocaleLowerCase();
+    if (!A.albums.has(bKey)) A.albums.set(bKey, { title: album, tracks: [], years: [] });
+    const B = A.albums.get(bKey); B.tracks.push(trk); if (t.year) B.years.push(t.year);
+  }
+  const lib = [];
+  for (const A of artists.values()) {
+    const albums = [...A.albums.values()].map(B => {
+      B.tracks.sort((x, y) => (x.disc - y.disc) || ((x.n ?? 1e9) - (y.n ?? 1e9)) || x.fileName.localeCompare(y.fileName, undefined, { numeric: true }));
+      const multiDisc = new Set(B.tracks.map(t => t.disc)).size > 1;
+      B.tracks.forEach((t, i) => { if (t.n == null) t.n = i + 1; t.label = multiDisc ? `${t.disc}·${t.n}` : String(t.n); });
+      const year = B.years.length ? Math.min(...B.years) : null;
+      // cover: any image in the album folder (or its parent for "CD1"/"Disc 2" sub-folders), else embedded artwork
+      const dir = B.tracks[0].dir;
+      let img = scan.folderCovers[dir];
+      if (!img && /^(cd|disc|disk)\s*\d+$/i.test(lastName(dir))) img = scan.folderCovers[parentDir(dir)];
+      const emb = B.tracks.find(t => t.hasPicture);
+      const coverSrc = img ? { cmd: "read_file", path: img } : emb ? { cmd: "embedded_cover", path: emb.path } : null;
+      return { title: B.title, year, cat: year ? String(year) : "", key: "al" + (albumSeq++),
+        geo: geo(COVER_PALETTE[hash(A.name + "/" + B.title) % COVER_PALETTE.length]), coverSrc, coverUrl: null, tracks: B.tracks };
+    }).sort((x, y) => ((x.year ?? 9999) - (y.year ?? 9999)) || x.title.localeCompare(y.title, undefined, { numeric: true }));
+    lib.push({ name: A.name, sort: A.sort, albums });
+  }
+  lib.sort((a, b) => a.sort.localeCompare(b.sort));
+  return lib;
+}
+
+/* Scan a folder (first run, change of folder, or rescan). Playback continues across a rescan. */
+async function openLibrary(root, quiet) {
+  const prevName = $("#folderName").textContent;
+  $("#folderName").textContent = "Scanning…"; $("#rescanBtn").disabled = true;
+  try {
+    const scan = await invoke("scan_library", { root });
+    const playingPath = current ? current.track.path : null;
+    const queuePaths = queue.map(q => library[q.a].albums[q.b].tracks[q.t].path);
+    library = buildLibrary(scan);
+    const sameRoot = libRoot === scan.root;
+    libRoot = scan.root; libName = scan.rootName;
+    try { localStorage.setItem("musicFolder", libRoot); } catch (_) {}
+    const where = new Map();
+    library.forEach((A, a) => A.albums.forEach((al, b) => al.tracks.forEach((tr, t) => where.set(tr.path, { a, b, t }))));
+    if (sameRoot && playingPath && where.has(playingPath)) {
+      queue = queuePaths.map(p => where.get(p)).filter(Boolean);
+      qPos = queue.findIndex(q => library[q.a].albums[q.b].tracks[q.t].path === playingPath);
+      const q = queue[qPos] || where.get(playingPath);
+      const al = library[q.a].albums[q.b];
+      current = { ...q, track: al.tracks[q.t], album: al, artist: library[q.a] };
+      selArtist = Math.min(selArtist, library.length - 1);
+    } else {
+      queue = []; qPos = -1; current = null; selArtist = 0;
+      audio.pause(); if (audio.dataset.url) { URL.revokeObjectURL(audio.dataset.url); audio.dataset.url = ""; } audio.removeAttribute("src"); audio.load();
+    }
+    $("#folderName").textContent = libName; $("#folderBtn").title = libRoot;
+    renderSidebar(); renderArtist(); updateNowPlaying(); syncPlay();
+    const n = library.reduce((s, A) => s + A.albums.reduce((u, al) => u + al.tracks.length, 0), 0);
+    if (!quiet) toast(n ? `${library.length} artists · ${n} tracks` : "No audio files found in that folder.");
+  } catch (err) {
+    $("#folderName").textContent = libRoot ? libName : prevName === "Scanning…" ? "Choose folder" : prevName;
+    toast("Couldn't open the folder: " + err);
+  } finally { $("#rescanBtn").disabled = !libRoot; }
+}
+async function chooseFolder() {
+  const root = await invoke("pick_folder").catch(() => null);
+  if (root) openLibrary(root);
+}
+
+/* =====================  Rendering the library  ===================== */
+let selArtist = 0, current = null, query = "";
+function coverEl(al, size, radius) {
+  const d = document.createElement("div");
+  d.className = "cover"; d.setAttribute("aria-hidden", "true");
+  d.style.cssText = `width:${size}px;height:${size}px;border-radius:${radius}px;`;
+  if (!al) { d.style.background = "var(--track)"; return d; }
+  d.dataset.key = al.key; d.dataset.size = size;
+  paintCover(al, d); loadCover(al);
+  return d;
+}
+function paintCover(al, d) {
+  d.textContent = "";
+  if (al.coverUrl) { d.style.background = ""; d.style.backgroundImage = `url("${al.coverUrl}")`; return; }
+  const c = al.geo, size = Number(d.dataset.size) || 52;
+  d.style.backgroundImage = ""; d.style.background = c.bg;
+  const o = document.createElement("i");
+  o.style.cssText = `border-radius:50%;left:${c.x}%;top:${c.y}%;width:${c.s}%;height:${c.s}%;background:${c.fg}`;
+  const l = document.createElement("i");
+  l.style.cssText = `left:12%;right:12%;height:${Math.max(1, size / 88)}px;opacity:.55;top:${c.ly}%;background:${c.fg}`;
+  d.append(o, l);
+}
+function loadCover(al) {
+  if (!al.coverSrc || al.coverUrl || al.coverLoading) return;
+  al.coverLoading = true;
+  invoke(al.coverSrc.cmd, { path: al.coverSrc.path })
+    .then(buf => {
+      al.coverUrl = URL.createObjectURL(new Blob([buf]));
+      document.querySelectorAll(`.cover[data-key="${al.key}"]`).forEach(d => paintCover(al, d));
+    })
+    .catch(() => { al.coverSrc = null; })
+    .finally(() => { al.coverLoading = false; });
+}
+const EQ_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" role="img" aria-label="Now playing"><line x1="5" y1="20" x2="5" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="19" y1="20" x2="19" y2="13"/></svg>';
+function matches(a) {
+  if (!query) return true;
+  const q = query.toLocaleLowerCase();
+  return a.name.toLocaleLowerCase().includes(q) || a.albums.some(al => al.title.toLocaleLowerCase().includes(q) || al.tracks.some(t => t.title.toLocaleLowerCase().includes(q)));
+}
+function renderSidebar() {
+  const nav = $("#artists"); nav.textContent = "";
+  let last = "", have = new Set(), shown = 0;
+  library.forEach((a, i) => {
+    if (!matches(a)) return;
+    shown++;
+    const L = (a.sort.charAt(0) || "#").toUpperCase();
+    const letter = /[A-Z]/.test(L) ? L : "#";
+    if (letter !== last) {
+      const h = document.createElement("div"); h.className = "letter"; h.textContent = letter; h.id = "L-" + letter;
+      nav.append(h); last = letter; have.add(letter);
+    }
+    const b = document.createElement("button");
+    b.className = "artistBtn"; b.setAttribute("aria-current", i === selArtist);
+    b.innerHTML = "<span></span><span></span>";
+    b.firstChild.textContent = a.name; b.lastChild.textContent = a.albums.length;
+    b.addEventListener("click", () => { selArtist = i; closeViz(); renderSidebar(); renderArtist(); });
+    nav.append(b);
+  });
+  if (!shown) { const e = document.createElement("div"); e.className = "empty"; e.textContent = library.length ? "No matches." : "No music yet."; nav.append(e); }
+  const rail = $("#rail"); rail.textContent = "";
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(l => {
+    const b = document.createElement("button"); b.textContent = l; b.className = have.has(l) ? "has" : "";
+    b.setAttribute("aria-label", "Jump to " + l);
+    b.addEventListener("click", () => { const t = document.getElementById("L-" + l); if (t) t.scrollIntoView({ block: "start", behavior: "smooth" }); });
+    rail.append(b);
+  });
+}
+function renderArtist() {
+  const page = $("#page"); page.textContent = ""; page.scrollTop = 0;
+  const A = library[selArtist];
+  if (!A) {
+    page.innerHTML = `<div class="welcome"><img src="icon.png" alt=""><h1>${libRoot ? "No music found" : "Welcome to Musica"}</h1>
+      <p>${libRoot ? "This folder has no audio files Musica can read. Choose another folder, or add music and rescan."
+                   : "Choose the folder where your music lives. Musica reads the tags of every file and sorts your library by artist; album artwork in the folders is picked up automatically."}</p>
+      <button class="pill primary" id="welcomePick"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Choose music folder</button></div>`;
+    page.querySelector("#welcomePick").addEventListener("click", chooseFolder);
+    return;
+  }
+  const nTr = A.albums.reduce((s, al) => s + al.tracks.length, 0);
+  const tot = A.albums.reduce((s, al) => s + al.tracks.reduce((u, t) => u + (t.dur || 0), 0), 0);
+  page.insertAdjacentHTML("beforeend", `<div class="eyebrow">Artist</div><h1></h1><div class="meta"></div>
+    <div class="actions"><button class="pill primary" id="playAll"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>Play all</button>
+    <button class="pill" id="shuffleAll"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>Shuffle</button></div>
+    <div class="albums"></div>`);
+  page.querySelector("h1").textContent = A.name;
+  page.querySelector(".meta").textContent = `${A.albums.length} ${A.albums.length === 1 ? "album" : "albums"} · ${nTr} tracks` + (tot ? ` · ${Math.max(1, Math.round(tot / 60))} min` : "");
+  page.querySelector("#playAll").addEventListener("click", () => { shuffle = false; syncModes(); playFrom(selArtist, 0, 0); });
+  page.querySelector("#shuffleAll").addEventListener("click", () => { shuffle = true; syncModes(); playFrom(selArtist, 0, 0, true); });
+  const wrap = page.querySelector(".albums");
+  A.albums.forEach((al, ai) => {
+    const sec = document.createElement("section"); sec.className = "album";
+    sec.append(coverEl(al, 176, 10));
+    const body = document.createElement("div"); body.className = "albumBody";
+    const h = document.createElement("h2"); h.textContent = al.title;
+    const aTot = al.tracks.reduce((u, t) => u + (t.dur || 0), 0);
+    const m = document.createElement("div"); m.className = "meta"; m.style.marginTop = "4px";
+    m.textContent = [al.cat, al.tracks.length + " tracks", aTot ? Math.max(1, Math.round(aTot / 60)) + " min" : ""].filter(Boolean).join(" · ");
+    const list = document.createElement("div"); list.className = "tracks";
+    al.tracks.forEach((t, ti) => {
+      const b = document.createElement("button"); b.className = "trk"; b.dataset.a = selArtist; b.dataset.b = ai; b.dataset.t = ti;
+      b.innerHTML = '<span class="n"></span><span class="t"></span><span class="d"></span>';
+      b.children[1].textContent = t.title; b.children[2].textContent = t.dur ? fmt(t.dur) : "";
+      b.addEventListener("click", () => playFrom(selArtist, ai, ti));
+      list.append(b);
+    });
+    body.append(h, m, list); sec.append(body); wrap.append(sec);
+  });
+  markCurrent();
+}
+function markCurrent() {
+  document.querySelectorAll(".trk").forEach(b => {
+    const on = current && +b.dataset.a === current.a && +b.dataset.b === current.b && +b.dataset.t === current.t;
+    b.setAttribute("aria-current", on);
+    const n = b.children[0];
+    if (on) n.innerHTML = EQ_ICON; else n.textContent = library[+b.dataset.a].albums[+b.dataset.b].tracks[+b.dataset.t].label;
+  });
+}
+
+/* =====================  Playback & queue  ===================== */
+let queue = [], qPos = -1, shuffle = false, repeat = "off", loadToken = 0;
+const MIME = { mp3: "audio/mpeg", flac: "audio/flac", wav: "audio/wav", ogg: "audio/ogg", oga: "audio/ogg", opus: 'audio/ogg; codecs="opus"',
+  m4a: "audio/mp4", mp4: "audio/mp4", aac: "audio/aac", aif: "audio/aiff", aiff: "audio/aiff", aifc: "audio/aiff" };
+function playFrom(a, b, t, shuf) {
+  const A = library[a]; if (!A) return;
+  queue = [];
+  A.albums.forEach((al, ai) => al.tracks.forEach((_, ti) => queue.push({ a, b: ai, t: ti })));
+  let start = queue.findIndex(q => q.b === b && q.t === t);
+  if (shuf || shuffle) {
+    const first = shuf ? queue.splice(Math.floor(Math.random() * queue.length), 1)[0] : queue.splice(start, 1)[0];
+    for (let i = queue.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [queue[i], queue[j]] = [queue[j], queue[i]]; }
+    queue.unshift(first); start = 0;
+  }
+  qPos = start; loadCurrent(true);
+}
+function setSource(buf, type, decoded, autoplay) {
+  if (audio.dataset.url) URL.revokeObjectURL(audio.dataset.url);
+  const url = URL.createObjectURL(new Blob([buf], { type }));
+  audio.dataset.url = url; audio.dataset.decoded = decoded ? "1" : ""; audio.dataset.autoplay = autoplay ? "1" : "";
+  audio.src = url;
+  if (autoplay) play(); else syncPlay();
+}
+async function loadCurrent(autoplay) {
+  const q = queue[qPos]; if (!q) return;
+  const al = library[q.a].albums[q.b], tr = al.tracks[q.t];
+  current = { ...q, track: tr, album: al, artist: library[q.a] };
+  updateNowPlaying(); markCurrent();
+  const token = ++loadToken;
+  audio.pause();
+  try {
+    ensureAudio();
+    const mime = MIME[(tr.fileName.split(".").pop() || "").toLowerCase()] || "";
+    // play the file as it is when the webview supports the format; otherwise decode it natively to WAV
+    const native = mime && audio.canPlayType(mime) !== "";
+    const buf = await invoke(native ? "read_file" : "decode_wav", { path: tr.path });
+    if (token !== loadToken) return;          // another track was chosen meanwhile
+    setSource(buf, native ? mime : "audio/wav", !native, autoplay);
+  } catch (err) {
+    if (token === loadToken) toast(`Couldn't open “${tr.title}”: ${err}`);
+  }
+}
+audio.addEventListener("error", async () => {
+  // the webview claimed support but failed (e.g. a missing GStreamer plugin): fall back to native decoding
+  if (!current || !audio.src || audio.dataset.decoded === "1") return;
+  const token = loadToken, tr = current.track, auto = audio.dataset.autoplay === "1";
+  try {
+    const buf = await invoke("decode_wav", { path: tr.path });
+    if (token === loadToken) setSource(buf, "audio/wav", true, auto);
+  } catch (err) { if (token === loadToken) toast(`“${tr.title}” can't be played: ${err}`); }
+});
+function play() {
+  if (!current) { if (library.length) playFrom(selArtist, 0, 0); return; }
+  ensureAudio(); actx.resume().catch(() => {});
+  audio.dataset.autoplay = "1";
+  if (!audio.src) return;                      // still loading; it will start when ready
+  audio.play().catch(() => {});
+  syncPlay();
+}
+function pause() { audio.dataset.autoplay = ""; audio.pause(); syncPlay(); }
+const isPlaying = () => !!current && !audio.paused;
+function togglePlay() { isPlaying() ? pause() : play(); }
+function next(auto) {
+  if (!queue.length) return;
+  if (auto && repeat === "one") { seekTo(0); play(); return; }
+  if (qPos + 1 < queue.length) qPos++;
+  else if (repeat === "all" || !auto) qPos = 0;
+  else { pause(); seekTo(0); return; }
+  loadCurrent(true);
+}
+function prev() {
+  if (!queue.length) return;
+  if (position() > 3) { seekTo(0); return; }
+  qPos = (qPos - 1 + queue.length) % queue.length; loadCurrent(true);
+}
+const position = () => current ? (audio.currentTime || 0) : 0;
+const duration = () => current ? (isFinite(audio.duration) && audio.duration ? audio.duration : current.track.dur || 0) : 0;
+function seekTo(x) { if (current && isFinite(audio.duration)) audio.currentTime = clamp(x, 0, audio.duration); }
+audio.addEventListener("ended", () => next(true));
+audio.addEventListener("play", syncPlay); audio.addEventListener("pause", syncPlay);
+audio.addEventListener("loadedmetadata", () => {
+  if (current && isFinite(audio.duration) && !current.track.dur) {
+    current.track.dur = audio.duration;
+    const b = document.querySelector(`.trk[data-a="${current.a}"][data-b="${current.b}"][data-t="${current.t}"] .d`);
+    if (b) b.textContent = fmt(audio.duration);
+  }
+});
+function syncPlay() {
+  const p = isPlaying();
+  $("#icPlay").style.display = p ? "none" : ""; $("#icPause").style.display = p ? "" : "none";
+  $("#playBtn").setAttribute("aria-label", p ? "Pause" : "Play");
+  if ("mediaSession" in navigator) try { navigator.mediaSession.playbackState = p ? "playing" : "paused"; } catch (_) {}
+}
+function updateNowPlaying() {
+  const c = current;
+  $("#npTitle").textContent = c ? c.track.title : "Nothing playing";
+  $("#npArtist").textContent = c ? c.artist.name : (library.length ? "Choose a track" : "");
+  const holder = $("#npCover"); holder.textContent = ""; holder.append(coverEl(c && c.album, 52, 6));
+  $("#vizNow").innerHTML = ""; if (c) { $("#vizNow").textContent = c.track.title + " "; const s = document.createElement("span"); s.textContent = "— " + c.artist.name; $("#vizNow").append(s); }
+  document.title = c ? `${c.track.title} — ${c.artist.name} · Musica` : "Musica";
+  if (c && "mediaSession" in navigator) try {
+    navigator.mediaSession.metadata = new MediaMetadata({ title: c.track.title, artist: c.artist.name, album: c.album.title,
+      artwork: c.album.coverUrl ? [{ src: c.album.coverUrl }] : [] });
+  } catch (_) {}
+}
+if ("mediaSession" in navigator) try {
+  navigator.mediaSession.setActionHandler("play", play); navigator.mediaSession.setActionHandler("pause", pause);
+  navigator.mediaSession.setActionHandler("nexttrack", () => next(false)); navigator.mediaSession.setActionHandler("previoustrack", prev);
+} catch (_) {}
+function syncModes() {
+  $("#shuffleBtn").className = "ib " + (shuffle ? "on" : "dim"); $("#shuffleBtn").setAttribute("aria-pressed", shuffle);
+  $("#repeatBtn").className = "ib " + (repeat === "off" ? "dim" : "on");
+  $("#repeatBtn").setAttribute("aria-label", "Repeat: " + repeat);
+  $("#rep1").style.display = repeat === "one" ? "" : "none";
+}
+let seeking = false, lastTick = performance.now();
+setInterval(() => {
+  const now = performance.now(), dt = (now - lastTick) / 1000; lastTick = now;
+  const d = duration(), p = position();
+  $("#tPos").textContent = fmt(p); $("#tDur").textContent = fmt(d);
+  if (!seeking && d) $("#seek").value = Math.round(p / d * 1000);
+}, 250);
+
+/* =====================  Visualizer view  ===================== */
+function openViz() {
+  if (vizOpen) return;
+  vizOpen = true; $("#vizWrap").classList.add("on"); $("#vizBtn").setAttribute("aria-pressed", "true");
+  if (!engineOK) { const m = $("#vizMsg"); m.style.display = "block"; m.textContent = window.__engineError || "The visualizer needs WebGL2 with float render targets, which this browser or GPU does not provide."; return; }
+  resize();
+  if (!engineReady) { initParticles(); engineReady = true; }
+  last = performance.now(); rafId = requestAnimationFrame(frame);
+}
+function closeViz() {
+  if (!vizOpen) return;
+  vizOpen = false; $("#vizWrap").classList.remove("on"); $("#vizBtn").setAttribute("aria-pressed", "false");
+  $("#vizSettings").classList.remove("on"); $("#setBtn").setAttribute("aria-pressed", "false");
+  cancelAnimationFrame(rafId);
+  if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+}
+let last = performance.now(), fpsEma = 60, slowFrames = 0, fastFrames = 0, userSide = 512, uiTick = 0;
+function frame(now) {
+  if (!vizOpen) return;
+  const dtReal = Math.min(0.05, Math.max(0.001, (now - last) / 1000)); last = now; tNow += dtReal;
+  updateFeatures(dtReal); computeParams(); computePalette();
+  const total = cur.tps * speedMul * dtReal * (isPlaying() || !current ? 1 : 0.35);   // slows to a drift when paused
+  const steps = clamp(Math.ceil(total / cur.dt), 1, 8);
+  step(total / steps, steps);
+  if (autoRot && !dragging) wanderCamera(dtReal);
+  render();
+  fpsEma += (1 / dtReal - fpsEma) * 0.05;
+  if (fpsEma < 45 && side > 256) { if (++slowFrames > 120) { slowFrames = 0; setSide(side === 1024 ? 768 : side === 768 ? 512 : 256, true); } } else slowFrames = 0;
+  if (side < userSide && fpsEma > 57) { if (++fastFrames > 600) { fastFrames = 0; setSide(side === 256 ? 512 : side === 512 ? 768 : 1024, true); } } else fastFrames = 0;
+  if ((uiTick++ & 7) === 0 && $("#vizSettings").classList.contains("on")) {
+    const css = c => `rgb(${c.map(v => Math.round(clamp(v, 0, 1) * 255)).join(",")})`;
+    $("#sw0").style.background = `linear-gradient(90deg, ${css(palNow[0])}, ${css(palNow[1])})`;
+    $("#sw1").style.background = css(palNow[1]);
+    $("#sw2").style.background = `linear-gradient(90deg, ${css(palNow[1])}, ${css(palNow[2])})`;
+    $("#oFps").textContent = Math.round(fpsEma) + " fps" + (side < userSide ? " · reduced" : "");
+  }
+  rafId = requestAnimationFrame(frame);
+}
+function setSide(s, auto) { if (!auto) userSide = s; side = s; $("#sCount").value = String(s); initParticles(); }
+function syncSliders() {
+  geoDepth = $("#sGeo").value / 100; motDepth = $("#sMot").value / 100; onsDepth = $("#sOns").value / 100;
+  colDepth = $("#sCol").value / 100; palK = $("#sSharp").value / 10;
+  try { trailDecay = 0.80 + 0.185 * ($("#sTrail").value / 100); } catch (_) {}
+  for (const [s, o] of [["sGeo", "oGeo"], ["sMot", "oMot"], ["sOns", "oOns"], ["sCol", "oCol"], ["sSharp", "oSharp"], ["sTrail", "oTrail"]]) $("#" + o).textContent = $("#" + s).value + "%";
+}
+
+/* =====================  Theme & wiring  ===================== */
+function setTheme(t) {
+  document.documentElement.dataset.theme = t; theme = THEMES[t];
+  $("#icSun").style.display = t === "dark" ? "" : "none"; $("#icMoon").style.display = t === "dark" ? "none" : "";
+  $("#themeBtn").setAttribute("aria-label", t === "dark" ? "Switch to light mode" : "Switch to dark mode");
+  document.querySelectorAll(".icSun").forEach(i => i.style.display = t === "dark" ? "" : "none");
+  document.querySelectorAll(".icMoon").forEach(i => i.style.display = t === "dark" ? "none" : "");
+  if (engineReady) clearAccum();
+  try { localStorage.setItem("theme", t); } catch (_) {}
+}
+$("#themeBtn").addEventListener("click", () => setTheme(theme === THEMES.dark ? "light" : "dark"));
+$("#vizBtn").addEventListener("click", () => vizOpen ? closeViz() : openViz());
+$("#closeViz").addEventListener("click", closeViz);
+$("#setBtn").addEventListener("click", () => { const on = !$("#vizSettings").classList.contains("on"); $("#vizSettings").classList.toggle("on", on); $("#setBtn").setAttribute("aria-pressed", on); });
+function toggleBloom() {
+  onsetMode = onsetMode === "bloom" ? "off" : "bloom";
+  $("#bloomBtn").setAttribute("aria-pressed", onsetMode === "bloom");
+  $("#bloomBtn").setAttribute("aria-label", "Onset bloom: " + (onsetMode === "bloom" ? "on" : "off"));
+  toast("Onset bloom " + (onsetMode === "bloom" ? "on" : "off"));
+}
+$("#bloomBtn").addEventListener("click", toggleBloom);
+$("#fsBtn").addEventListener("click", toggleFs);
+function toggleFs() { try { if (document.fullscreenElement) document.exitFullscreen(); else $("#vizWrap").requestFullscreen().catch(() => toast("Fullscreen is not available here.")); } catch (_) {} }
+document.addEventListener("fullscreenchange", () => { if (vizOpen && engineOK) resize(); });
+["sGeo", "sMot", "sOns", "sCol", "sSharp", "sTrail"].forEach(id => $("#" + id).addEventListener("input", syncSliders));
+$("#sCount").addEventListener("change", e => setSide(Number(e.target.value)));
+$("#cWander").addEventListener("change", e => { autoRot = e.target.checked; });
+$("#playBtn").addEventListener("click", togglePlay);
+$("#nextBtn").addEventListener("click", () => next(false));
+$("#prevBtn").addEventListener("click", prev);
+$("#shuffleBtn").addEventListener("click", () => { shuffle = !shuffle; syncModes(); });
+$("#repeatBtn").addEventListener("click", () => { repeat = repeat === "off" ? "all" : repeat === "all" ? "one" : "off"; syncModes(); });
+$("#seek").addEventListener("input", () => { seeking = true; });
+$("#seek").addEventListener("change", e => { seekTo(e.target.value / 1000 * duration()); seeking = false; });
+$("#vol").addEventListener("input", e => { audio.volume = e.target.value / 100; try { localStorage.setItem("volume", e.target.value); } catch (_) {} });
+try { const v = localStorage.getItem("volume"); if (v != null) $("#vol").value = v; } catch (_) {}
+audio.volume = $("#vol").value / 100;
+$("#search").addEventListener("input", e => { query = e.target.value.trim(); renderSidebar(); });
+$("#folderBtn").addEventListener("click", chooseFolder);
+$("#rescanBtn").addEventListener("click", () => { if (libRoot) openLibrary(libRoot); });
+addEventListener("keydown", e => {
+  const tag = e.target.tagName;
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "f") { e.preventDefault(); $("#search").focus(); return; }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "o") { e.preventDefault(); chooseFolder(); return; }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "r") { e.preventDefault(); if (libRoot) openLibrary(libRoot); return; }
+  if (tag === "INPUT" && e.target.type !== "range" && e.target.type !== "checkbox") return;
+  if (tag === "SELECT") return;
+  if (e.code === "Space") { e.preventDefault(); togglePlay(); }
+  else if (e.key === "ArrowRight") seekTo(position() + 5);
+  else if (e.key === "ArrowLeft") seekTo(Math.max(0, position() - 5));
+  else if (e.key === "v" || e.key === "V") vizOpen ? closeViz() : openViz();
+  else if (e.key === "l" || e.key === "L") setTheme(theme === THEMES.dark ? "light" : "dark");
+  else if ((e.key === "f" || e.key === "F") && vizOpen) toggleFs();
+  else if (e.key === "Escape" && vizOpen && !document.fullscreenElement) closeViz();
+  else if ((e.key === "b" || e.key === "B") && vizOpen) toggleBloom();
+});
+/* sidebar width: drag the edge, arrow keys on the focused edge, double-click to reset; remembered per browser */
+const SIDE_MIN = 200, SIDE_MAX = 480, SIDE_DEF = 260;
+let sideW = SIDE_DEF;
+try { const v = Number(localStorage.getItem("sideW")); if (v) sideW = v; } catch (_) {}
+function setSideW(w, save) {
+  sideW = Math.round(clamp(w, SIDE_MIN, Math.min(SIDE_MAX, innerWidth - 420)));
+  document.documentElement.style.setProperty("--sideW", sideW + "px");
+  $("#resizer").setAttribute("aria-valuenow", sideW);
+  if (save) try { localStorage.setItem("sideW", sideW); } catch (_) {}
+}
+setSideW(sideW);
+const rz = $("#resizer");
+rz.addEventListener("pointerdown", e => {
+  e.preventDefault(); rz.setPointerCapture(e.pointerId); rz.classList.add("active"); document.body.classList.add("resizing");
+  const x0 = e.clientX, w0 = sideW;
+  const move = ev => setSideW(w0 + ev.clientX - x0);
+  const up = () => { rz.removeEventListener("pointermove", move); rz.classList.remove("active"); document.body.classList.remove("resizing"); setSideW(sideW, true); };
+  rz.addEventListener("pointermove", move); rz.addEventListener("pointerup", up, { once: true }); rz.addEventListener("pointercancel", up, { once: true });
+});
+rz.addEventListener("dblclick", () => setSideW(SIDE_DEF, true));
+rz.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft" || e.key === "ArrowRight") { e.preventDefault(); e.stopPropagation(); setSideW(sideW + (e.key === "ArrowRight" ? 16 : -16), true); }
+});
+// the visualizer canvas follows its area whenever the sidebar or window changes size
+new ResizeObserver(() => { if (vizOpen && engineOK) resize(); }).observe($("#vizWrap"));
+addEventListener("resize", () => setSideW(sideW));
+
+let savedTheme = "dark";
+try { savedTheme = localStorage.getItem("theme") || "dark"; } catch (_) {}
+setTheme(savedTheme); syncModes(); syncSliders(); renderSidebar(); renderArtist(); updateNowPlaying();
+(async () => {
+  // a folder given on the command line wins; otherwise reopen the last folder
+  const arg = await invoke("initial_folder").catch(() => null);
+  let saved = null; try { saved = localStorage.getItem("musicFolder"); } catch (_) {}
+  if (arg || saved) openLibrary(arg || saved, !arg);
+})();
+</script>
+<script>
+"use strict";
+/* =====================  Visualizer engine (WebGL2) — same as the standalone prototype  ===================== */
+const vizWrap = $("#vizWrap");
+const canvas = $("#viz");
+const gl = canvas.getContext("webgl2", { antialias: false, alpha: false, depth: false, stencil: false, powerPreference: "high-performance" });
+function fail(msg) { window.__engineError = msg; throw new Error(msg); }
+if (!gl) fail("The visualizer needs WebGL2, which this browser or GPU does not provide.");
+if (!gl.getExtension("EXT_color_buffer_float")) fail("This GPU cannot render to float textures (EXT_color_buffer_float), which the particle simulation needs.");
+const COMMON = `
+uniform int uType; uniform vec4 uP0; uniform vec4 uP1;
+vec3 F(vec3 p){
+  if(uType==0){ return vec3(uP0.x*(p.y-p.x), p.x*(uP0.y-p.z)-p.y, p.x*p.y-uP0.z*p.z); }
+  if(uType==1){ float zb=p.z-uP0.y;
+    return vec3(zb*p.x-uP0.w*p.y, uP0.w*p.x+zb*p.y,
+      uP0.z+uP0.x*p.z-p.z*p.z*p.z/3.0-(p.x*p.x+p.y*p.y)*(1.0+uP1.x*p.z)+uP1.y*p.z*p.x*p.x*p.x); }
+  float a=uP0.x;
+  return vec3(-a*p.x-4.0*p.y-4.0*p.z-p.y*p.y, -a*p.y-4.0*p.z-4.0*p.x-p.z*p.z, -a*p.z-4.0*p.x-4.0*p.y-p.x*p.x);
+}`;
+
+const VS_TRI = `#version 300 es
+void main(){ vec2 p=vec2(float((gl_VertexID<<1)&2), float(gl_VertexID&2)); gl_Position=vec4(p*2.0-1.0,0.0,1.0); }`;
+
+const FS_UPDATE = `#version 300 es
+precision highp float; precision highp int;
+uniform highp sampler2D uState;
+uniform float uDt; uniform int uSteps; uniform uint uFrame;
+uniform vec3 uBoxMin; uniform vec3 uBoxMax; uniform vec3 uSpawn; uniform vec3 uSpawnSize;
+uniform float uRespawn; uniform float uJitter;
+out vec4 o;
+${COMMON}
+uint H(uint x){ x^=x>>16; x*=0x7feb352du; x^=x>>15; x*=0x846ca68bu; x^=x>>16; return x; }
+float R(inout uint s){ s=H(s); return float(s>>8)/16777216.0; }
+// Aizawa: the z-axis is invariant. A particle squeezed within 1e-3 of it (r ≈ 1e-40 in float32 flushes to 0)
+// gets parked at the axis equilibrium for a very long time, so it is treated as lost and re-seeded.
+// On the undisturbed attractor r never drops below ≈ 3e-3, so this does not touch normal motion.
+bool bad(vec3 x){ return !all(lessThan(abs(x),vec3(1e6))) || any(lessThan(x,uBoxMin)) || any(greaterThan(x,uBoxMax)) || dot(x.xy,x.xy)<1e-6; }
+void main(){
+  ivec2 ij=ivec2(gl_FragCoord.xy); ivec2 sz=textureSize(uState,0);
+  vec3 x=texelFetch(uState,ij,0).xyz;
+  for(int k=0;k<8;k++){
+    if(k>=uSteps) break;
+    vec3 k1=F(x), k2=F(x+0.5*uDt*k1), k3=F(x+0.5*uDt*k2), k4=F(x+uDt*k3);
+    x+=uDt/6.0*(k1+2.0*k2+2.0*k3+k4);
+  }
+  uint s=H(uint(ij.x)*1973u ^ H(uint(ij.y)*9277u ^ uFrame*26699u));
+  if(bad(x) || R(s)<uRespawn){
+    ivec2 q=ivec2(min(int(R(s)*float(sz.x)),sz.x-1), min(int(R(s)*float(sz.y)),sz.y-1));
+    vec3 y=texelFetch(uState,q,0).xyz;
+    if(bad(y)) y=uSpawn+(vec3(R(s),R(s),R(s))-0.5)*uSpawnSize;
+    x=y+(vec3(R(s),R(s),R(s))-0.5)*uJitter;
+  }
+  o=vec4(x,1.0);
+}`;
+
+const VS_POINTS = `#version 300 es
+precision highp float; precision highp int;
+uniform highp sampler2D uState; uniform int uSide;
+uniform mat3 uBasis; uniform vec3 uCenter; uniform float uScale; uniform mat3 uView;
+uniform float uAspect; uniform float uZoom; uniform vec2 uPan; uniform float uVRef; uniform float uPointSize;
+uniform vec3 uC0; uniform vec3 uC1; uniform vec3 uC2; uniform float uVSpan; uniform float uK; uniform float uBloom;
+out vec3 vCol;
+${COMMON}
+void main(){
+  ivec2 ij=ivec2(gl_VertexID%uSide, gl_VertexID/uSide);
+  vec3 x=texelFetch(uState,ij,0).xyz;
+  vec3 q=uBasis*((x-uCenter)*uScale);
+  if(uBloom>0.0005){            // onset bloom: display-space swell + twist about the axis, decays in ~0.3 s
+    float ang=1.1*uBloom*q.z, ca=cos(ang), sa=sin(ang);
+    q.xy=mat2(ca,sa,-sa,ca)*q.xy*(1.0+0.55*uBloom);
+    q.z*=1.0+0.3*uBloom;
+  }
+  vec3 v=uView*q;
+  float persp=1.0/max(0.25,1.0-v.z*0.3);
+  gl_Position=vec4(v.x*persp*uZoom/uAspect+uPan.x, v.y*persp*uZoom+uPan.y, 0.0, 1.0);
+  gl_PointSize=uPointSize;
+  float sp=clamp(0.5+0.5*log(max(length(F(x)),1e-6)/uVRef)/uVSpan,0.0,1.0);
+  if(uK>0.01) sp=clamp(0.5+0.5*tanh(uK*(sp-0.5))/tanh(0.5*uK),0.0,1.0);
+  vec3 c= sp<0.5 ? mix(uC0,uC1,sp*2.0) : mix(uC1,uC2,sp*2.0-1.0);
+  vCol=c*clamp(persp,0.6,1.6);
+}`;
+
+const FS_POINTS = `#version 300 es
+precision highp float;
+uniform float uI; in vec3 vCol; out vec4 o;
+void main(){ o=vec4(vCol*uI,1.0); }`;
+
+const FS_FADE = `#version 300 es
+precision mediump float; out vec4 o; void main(){ o=vec4(0.0); }`;
+
+const FS_COMP = `#version 300 es
+precision highp float;
+uniform highp sampler2D uAccum; uniform float uExposure; uniform vec3 uBg; uniform int uLight;
+out vec4 o;
+void main(){
+  ivec2 ij=ivec2(gl_FragCoord.xy);
+  vec3 a=max(texelFetch(uAccum,ij,0).rgb,0.0)*uExposure;
+  vec3 col = uLight==1 ? uBg*exp(-a) : uBg+(1.0-exp(-a))*(1.0-uBg);
+  float n=fract(sin(dot(vec2(ij),vec2(12.9898,78.233)))*43758.5453)-0.5;
+  o=vec4(col+n/255.0,1.0);
+}`;
+
+function program(vs, fs) {
+  const p = gl.createProgram();
+  for (const [type, src] of [[gl.VERTEX_SHADER, vs], [gl.FRAGMENT_SHADER, fs]]) {
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) fail("Shader error: " + gl.getShaderInfoLog(s));
+    gl.attachShader(p, s);
+  }
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) fail("Link error: " + gl.getProgramInfoLog(p));
+  const cache = {};
+  return { p, u: n => (n in cache ? cache[n] : (cache[n] = gl.getUniformLocation(p, n))) };
+}
+const PU = program(VS_TRI, FS_UPDATE), PP = program(VS_POINTS, FS_POINTS), PF = program(VS_TRI, FS_FADE), PC = program(VS_TRI, FS_COMP);
+const vao = gl.createVertexArray(); gl.bindVertexArray(vao);
+
+function tex(w, h, internal, format, type, data) {
+  const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+  gl.texImage2D(gl.TEXTURE_2D, 0, internal, w, h, 0, format, type, data);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  return t;
+}
+function fbo(t) {
+  const f = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, f);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, t, 0);
+  if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) fail("Framebuffer setup failed on this GPU.");
+  return f;
+}
+
+/* ---------- State ---------- */
+let side = 512, N = side * side;
+let state = [], fbs = [], src = 0, frameNo = 0;
+let accumTex = null, accumFbo = null, W = 0, Hh = 0, dpr = 1;
+let yaw = 0.12, pitch = 0.28, tilt = 0, roll = 0, zoom = 0.82, autoRot = true;
+
+/* Wandering camera: each channel is a critically damped spring chasing a target
+   that is re-drawn at random every 5–12 s. Velocity is continuous, so the motion
+   is smooth (no jerks) yet never repeats. Yaw is driven in angular velocity, so
+   the camera keeps orbiting and occasionally slows and reverses. */
+function spring(omega, lo, hi, x0) {
+  return { omega, lo, hi, x: x0, v: 0, target: x0, next: 0 };
+}
+function springStep(sp, dt, now) {
+  if (now >= sp.next) { sp.target = sp.lo + Math.random() * (sp.hi - sp.lo); sp.next = now + 5 + Math.random() * 7; }
+  const w = sp.omega, a = w * w * (sp.target - sp.x) - 2 * w * sp.v;
+  sp.v += a * dt; sp.x += sp.v * dt;
+}
+const camYawVel = spring(0.45, -0.14, 0.16, 0.07);   // rad/s, biased to keep turning one way
+const camPitch  = spring(0.40, -0.30, 0.80, 0.28);   // rad: mostly from slightly above
+const camZoom   = spring(0.35, 0.88, 1.10, 1.0);     // gentle push in / pull back, × user zoom
+const camTilt   = spring(0.38, -0.7, 0.7, 0.0);      // rad: sideways swing about the screen vertical
+const camRoll   = spring(0.30, -0.40, 0.40, 0.0);    // rad: roll about the line of sight
+const camPanX   = spring(0.32, -0.20, 0.20, 0.0);    // clip units: sideways drift of the framing
+const camPanY   = spring(0.30, -0.06, 0.06, 0.0);    // small vertical float so the drift isn't on rails
+function wanderCamera(dt) {
+  springStep(camYawVel, dt, tNow); springStep(camPitch, dt, tNow); springStep(camZoom, dt, tNow);
+  springStep(camTilt, dt, tNow); springStep(camRoll, dt, tNow); springStep(camPanX, dt, tNow); springStep(camPanY, dt, tNow);
+  yaw += camYawVel.x * dt; pitch = camPitch.x; tilt = camTilt.x; roll = camRoll.x;
+}
+const zoomEff = () => zoom * (autoRot ? camZoom.x : 1);
+let P = { ...cur.base }, speedMul = 1;
+
+function initParticles() {
+  for (const t of state) gl.deleteTexture(t);
+  for (const f of fbs) gl.deleteFramebuffer(f);
+  N = side * side;
+  const d = new Float32Array(N * 4), A = cur;
+  for (let i = 0; i < N; i++) {
+    d[i * 4] = A.spawn[0] + (Math.random() - 0.5) * A.spawnSize[0];
+    d[i * 4 + 1] = A.spawn[1] + (Math.random() - 0.5) * A.spawnSize[1];
+    d[i * 4 + 2] = A.spawn[2] + (Math.random() - 0.5) * A.spawnSize[2];
+    d[i * 4 + 3] = 1;
+  }
+  state = [tex(side, side, gl.RGBA32F, gl.RGBA, gl.FLOAT, d), tex(side, side, gl.RGBA32F, gl.RGBA, gl.FLOAT, null)];
+  fbs = [fbo(state[0]), fbo(state[1])]; src = 0;
+  P = { ...cur.base };
+  for (let k = 0; k < 90; k++) step(cur.dt, 8);   // warm-up: let particles settle onto the attractor
+  clearAccum();
+}
+
+function resize() {
+  dpr = Math.min(2, window.devicePixelRatio || 1);
+  const rc = vizWrap.getBoundingClientRect();
+  W = Math.max(1, Math.round(rc.width * dpr)); Hh = Math.max(1, Math.round(rc.height * dpr));
+  canvas.width = W; canvas.height = Hh;
+  if (accumTex) { gl.deleteTexture(accumTex); gl.deleteFramebuffer(accumFbo); }
+  accumTex = tex(W, Hh, gl.RGBA16F, gl.RGBA, gl.HALF_FLOAT, null); accumFbo = fbo(accumTex);
+  clearAccum();
+}
+function clearAccum() { gl.bindFramebuffer(gl.FRAMEBUFFER, accumFbo); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); }
+
+function setParams(prog) {
+  const pk = cur.pack(P);
+  gl.uniform1i(prog.u("uType"), cur.type);
+  gl.uniform4f(prog.u("uP0"), pk[0], pk[1], pk[2], pk[3]);
+  gl.uniform4f(prog.u("uP1"), pk[4], pk[5], pk[6], pk[7]);
+}
+
+function step(h, steps) {
+  const A = cur, dst = 1 - src;
+  gl.useProgram(PU.p); setParams(PU);
+  gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, state[src]); gl.uniform1i(PU.u("uState"), 0);
+  gl.uniform1f(PU.u("uDt"), h); gl.uniform1i(PU.u("uSteps"), steps); gl.uniform1ui(PU.u("uFrame"), (frameNo++) >>> 0);
+  gl.uniform3f(PU.u("uBoxMin"), A.box[0], A.box[1], A.box[2]); gl.uniform3f(PU.u("uBoxMax"), A.box[3], A.box[4], A.box[5]);
+  gl.uniform3fv(PU.u("uSpawn"), A.spawn); gl.uniform3fv(PU.u("uSpawnSize"), A.spawnSize);
+  gl.uniform1f(PU.u("uRespawn"), 0.0003); gl.uniform1f(PU.u("uJitter"), 0.002 / A.scale);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, fbs[dst]); gl.viewport(0, 0, side, side);
+  gl.disable(gl.BLEND); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  src = dst;
+}
+
+function mul3(A, B) {
+  const o = new Array(9);
+  for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) o[3 * i + j] = A[3 * i] * B[j] + A[3 * i + 1] * B[3 + j] + A[3 * i + 2] * B[6 + j];
+  return o;
+}
+function viewMatrix() {
+  const c = Math.cos(yaw), s = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+  // rows: right, up, toward viewer → column-major for GLSL
+  const r = [c, -s, 0, sp * s, sp * c, cp, -cp * s, -cp * c, sp];
+  // then, in camera space: sideways tilt about the screen's vertical axis, and roll about the line of sight.
+  // (Aizawa is nearly symmetric about its own axis, so yaw alone barely changes the picture;
+  //  tilt and roll are what make horizontal and in-plane motion visible.)
+  const ct = Math.cos(tilt), st = Math.sin(tilt), cr = Math.cos(roll), sr = Math.sin(roll);
+  const T = [ct, 0, st, 0, 1, 0, -st, 0, ct], Rl = [cr, -sr, 0, sr, cr, 0, 0, 0, 1];
+  const m = mul3(Rl, mul3(T, r));
+  return [m[0], m[3], m[6], m[1], m[4], m[7], m[2], m[5], m[8]];
+}
+function colMajor(m) { return [m[0], m[3], m[6], m[1], m[4], m[7], m[2], m[5], m[8]]; }
+
+let trailDecay = 0.93, exposure = 1;
+function render() {
+  const A = cur, ps = Math.max(1, Math.round(dpr));
+  gl.bindFramebuffer(gl.FRAMEBUFFER, accumFbo); gl.viewport(0, 0, W, Hh);
+  gl.enable(gl.BLEND);
+  gl.blendColor(trailDecay, trailDecay, trailDecay, trailDecay); gl.blendFunc(gl.ZERO, gl.CONSTANT_COLOR);
+  gl.useProgram(PF.p); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  gl.blendFunc(gl.ONE, gl.ONE);
+  gl.useProgram(PP.p); setParams(PP);
+  gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, state[src]); gl.uniform1i(PP.u("uState"), 0);
+  gl.uniform1i(PP.u("uSide"), side);
+  gl.uniformMatrix3fv(PP.u("uBasis"), false, colMajor(A.basis));
+  gl.uniform3fv(PP.u("uCenter"), A.center(P)); gl.uniform1f(PP.u("uScale"), A.scale);
+  gl.uniformMatrix3fv(PP.u("uView"), false, viewMatrix());
+  gl.uniform1f(PP.u("uAspect"), W / Hh); gl.uniform1f(PP.u("uZoom"), zoomEff()); gl.uniform2f(PP.u("uPan"), autoRot ? camPanX.x : 0, autoRot ? camPanY.x : 0);
+  gl.uniform1f(PP.u("uVRef"), A.vMed); gl.uniform1f(PP.u("uVSpan"), Math.log(A.v90 / A.vMed)); gl.uniform1f(PP.u("uK"), palK); gl.uniform1f(PP.u("uBloom"), onsetMode === "bloom" ? bloomEnv * onsDepth : 0); gl.uniform1f(PP.u("uPointSize"), ps);
+  gl.uniform3fv(PP.u("uC0"), palGL[0]); gl.uniform3fv(PP.u("uC1"), palGL[1]); gl.uniform3fv(PP.u("uC2"), palGL[2]);
+  // brightness normalised for particle count, screen area and trail length
+  gl.uniform1f(PP.u("uI"), 0.2 * (W * Hh) / (N * ps * ps) * (1 - trailDecay) * zoomEff() * zoomEff() * (A.gain || 1));
+  gl.drawArrays(gl.POINTS, 0, N);
+  gl.disable(gl.BLEND);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, W, Hh);
+  gl.useProgram(PC.p);
+  gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, accumTex); gl.uniform1i(PC.u("uAccum"), 0);
+  gl.uniform1f(PC.u("uExposure"), exposure); gl.uniform3fv(PC.u("uBg"), theme.bg); gl.uniform1i(PC.u("uLight"), theme.light);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+}
+
+
+/* camera interaction */
+let lx = 0, ly = 0;
+canvas.addEventListener("pointerdown", e => { dragging = true; lx = e.clientX; ly = e.clientY; canvas.classList.add("drag"); canvas.setPointerCapture(e.pointerId); });
+canvas.addEventListener("pointermove", e => {
+  if (!dragging) return;
+  tilt = clamp(tilt + (e.clientX - lx) * 0.006, -1.4, 1.4); pitch = clamp(pitch + (e.clientY - ly) * 0.006, -1.4, 1.4);
+  lx = e.clientX; ly = e.clientY;
+});
+const endDrag = () => { camPitch.x = pitch; camPitch.v = 0; camTilt.x = tilt; camTilt.v = 0; dragging = false; canvas.classList.remove("drag"); };
+canvas.addEventListener("pointerup", endDrag); canvas.addEventListener("pointercancel", endDrag);
+canvas.addEventListener("wheel", e => { e.preventDefault(); zoom = clamp(zoom * Math.exp(-e.deltaY * 0.001), 0.35, 3); }, { passive: false });
+canvas.addEventListener("webglcontextlost", e => { e.preventDefault(); engineOK = false; closeViz(); toast("The GPU context was lost. Reload the page to use the visualizer."); });
+engineOK = true; syncSliders();
+</script>
+</body>
+</html>
