@@ -1,6 +1,6 @@
 [package]
 name = "musica"
-version = "0.1.0"
+version = "0.2.0"
 description = "Offline music player with a strange-attractor visualizer"
 authors = ["Gio"]
 license = "MIT"

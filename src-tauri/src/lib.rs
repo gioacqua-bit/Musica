@@ -6,7 +6,8 @@
 //! * a recursive scan of the music folder with real tag reading (artist, album artist, album,
 //!   title, track/disc numbers, duration, embedded artwork) and folder-image cover detection,
 //! * fast transfer of audio and image bytes to the webview,
-//! * a decoder fallback that converts any format the webview cannot play into WAV.
+//! * a decoder fallback that converts any format the webview cannot play into WAV,
+//! * storage of the playlists in the app's data folder.
 //!
 //! Every file request is checked against the currently open music folder.
 
@@ -17,7 +18,7 @@ use std::path::PathBuf;
 use std::sync::Mutex;
 
 use tauri::ipc::Response;
-use tauri::State;
+use tauri::{Manager, State};
 use tauri_plugin_dialog::DialogExt;
 
 #[derive(Default)]
@@ -110,6 +111,34 @@ async fn decode_wav(path: String, state: State<'_, AppState>) -> Result<Response
     Ok(Response::new(bytes))
 }
 
+/// `<app data folder>/playlists.json` (created on first save).
+fn playlists_file(app: &tauri::AppHandle) -> Result<PathBuf, String> {
+    let dir = app.path().app_data_dir().map_err(|e| e.to_string())?;
+    std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
+    Ok(dir.join("playlists.json"))
+}
+
+/// Returns the stored playlists as JSON, or an empty string before the first save.
+#[tauri::command]
+fn load_playlists(app: tauri::AppHandle) -> Result<String, String> {
+    match std::fs::read_to_string(playlists_file(&app)?) {
+        Ok(s) => Ok(s),
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(String::new()),
+        Err(e) => Err(e.to_string()),
+    }
+}
+
+/// Stores the playlists. The JSON is validated and written atomically (temporary file, then
+/// rename), so a crash during a save cannot leave a half-written file behind.
+#[tauri::command]
+fn save_playlists(app: tauri::AppHandle, json: String) -> Result<(), String> {
+    serde_json::from_str::<serde_json::Value>(&json).map_err(|e| format!("invalid playlist data: {e}"))?;
+    let path = playlists_file(&app)?;
+    let tmp = path.with_extension("json.tmp");
+    std::fs::write(&tmp, json.as_bytes()).map_err(|e| e.to_string())?;
+    std::fs::rename(&tmp, &path).map_err(|e| e.to_string())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -121,7 +150,9 @@ pub fn run() {
             scan_library,
             read_file,
             embedded_cover,
-            decode_wav
+            decode_wav,
+            load_playlists,
+            save_playlists
         ])
         .run(tauri::generate_context!())
         .expect("error while running Musica");

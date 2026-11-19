@@ -61,13 +61,60 @@ h1{margin:6px 0;font-size:40px;line-height:1.1;font-weight:600;letter-spacing:-.
 .albumBody{flex:1 1 320px;min-width:0}
 h2{margin:0;font-size:20px;font-weight:600;letter-spacing:-.01em}
 .tracks{display:flex;flex-direction:column;margin-top:14px}
-.trk{display:grid;grid-template-columns:32px minmax(0,1fr) 56px;align-items:center;width:100%;min-height:44px;padding:0 12px;border:0;border-radius:8px;background:transparent;text-align:left;cursor:pointer}
+.trk{display:grid;grid-template-columns:minmax(0,1fr) 56px 36px;align-items:center;width:100%;min-height:44px;padding:0 4px 0 12px;border-radius:8px;cursor:pointer}
+.trk.pl{grid-template-columns:minmax(0,1fr) 56px 36px 36px}
+.trkPlay{display:grid;grid-template-columns:32px minmax(0,1fr);align-items:center;min-width:0;min-height:44px;padding:0;border:0;background:transparent;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.trk .sub{display:block;font-size:12px;font-weight:400;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trk .iconBtn{opacity:0}
+.trk:hover .iconBtn,.trk:focus-within .iconBtn,.trk .iconBtn[aria-expanded=true]{opacity:1}
+.trk.missing{cursor:default}
+.trk.missing .trkPlay{cursor:default;opacity:.5}
 .trk:hover{background:var(--hover)}
 .trk[aria-current=true]{background:var(--sel);font-weight:600}
 .trk .n{font-size:13px;color:var(--muted);display:flex;align-items:center}
-.trk .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trk .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .trk .d{text-align:right;font-size:13px;font-weight:400;color:var(--muted);font-variant-numeric:tabular-nums}
 .note{margin-top:28px;font-size:12px;color:var(--muted)}
+/* playlists */
+.secHead{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 4px 4px 10px}
+.secHead span:first-child{font-size:13px;font-weight:600}
+.secHead.artistsHead{padding-top:18px}
+.iconBtn{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;flex:none;border:0;border-radius:8px;background:transparent;color:var(--muted);cursor:pointer}
+.iconBtn:hover,.iconBtn:focus-visible,.iconBtn[aria-expanded=true]{background:var(--hover);color:var(--text)}
+.plBtn{justify-content:flex-start}
+.plBtn svg{flex:none;color:var(--muted)}
+.plBtn span:nth-child(2){flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plBtn span:last-child{font-size:12px;font-weight:400;color:var(--muted)}
+.emptyPl{padding:4px 10px 6px;font-size:12px;color:var(--muted)}
+.albumHead{display:flex;align-items:center;gap:6px;min-width:0}
+.plHead{display:flex;flex-wrap:wrap;align-items:flex-end;gap:28px}
+.mosaic{width:176px;height:176px;flex:none;border-radius:10px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;background:var(--track)}
+.mosaic.one{grid-template-columns:1fr}
+.mosaic .ph{display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.plList{margin-top:32px;display:flex;flex-direction:column}
+.pill.small{height:36px;padding:0 14px;font-size:13px}
+.pill.danger{border:0;background:#B4321F;color:#FFFFFF}
+.pill:disabled{opacity:.45;cursor:default}
+#plMenu{position:fixed;z-index:50;width:260px;max-height:min(380px,70vh);overflow:auto;padding:6px;border:1px solid var(--line);border-radius:12px;background:var(--panel);box-shadow:0 12px 32px rgba(0,0,0,.28)}
+#plMenu .mh{padding:6px 10px 6px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+#plMenu .mi{display:flex;align-items:center;gap:8px;width:100%;min-height:36px;padding:0 10px;border:0;border-radius:8px;background:transparent;text-align:left;cursor:pointer;font-size:13px}
+#plMenu .mi:hover,#plMenu .mi:focus-visible{background:var(--hover);outline:none}
+#plMenu .chk{width:16px;flex:none;display:inline-flex;color:var(--accent)}
+#plMenu .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#plMenu .ct{font-size:12px;color:var(--muted)}
+#plMenu hr{border:0;border-top:1px solid var(--line);margin:4px 2px}
+.mform{display:flex;gap:6px;padding:4px}
+.field{flex:1;min-width:0;height:36px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);font:inherit;font-size:13px;padding:0 10px;outline:none}
+.field:focus{border-color:var(--accent)}
+.okBtn{height:36px;padding:0 14px;border:0;border-radius:8px;background:var(--accent);color:var(--onAccent);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+#dlgWrap{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.4)}
+#dlgWrap.on{display:flex}
+.dlgCard{width:min(400px,calc(100% - 32px));padding:22px;border:1px solid var(--line);border-radius:14px;background:var(--panel);box-shadow:0 16px 40px rgba(0,0,0,.3)}
+.dlgCard h3{margin:0 0 6px;font-size:17px;font-weight:600}
+.dlgCard p{margin:0 0 14px;font-size:13px;line-height:1.5;color:var(--muted)}
+.dlgCard .field{width:100%}
+.dlgBtns{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.npAdd{margin-left:4px}
 .welcome{max-width:520px;margin:12vh auto 0;text-align:center}
 .welcome img{width:112px;height:112px}
 .welcome h1{margin:18px 0 10px}
@@ -153,10 +200,9 @@ input.bar{flex:1;min-width:40px;accent-color:var(--accent);margin:0;height:16px}
         <span class="sr">Search</span>
         <input id="search" type="search" placeholder="Search artists, albums, tracks">
       </label>
-      <div class="rowBetween" style="padding-top:6px"><span style="font-size:13px;font-weight:600">Artists</span><span class="meta" id="sortNote">A–Z</span></div>
     </div>
     <div class="listWrap">
-      <nav class="artists" id="artists" aria-label="Artists"></nav>
+      <nav class="artists" id="artists" aria-label="Playlists and artists"></nav>
       <div class="rail" id="rail" aria-label="Jump to letter"></div>
     </div>
     <div class="resizer" id="resizer" role="separator" aria-orientation="vertical" aria-label="Resize sidebar" aria-valuemin="200" aria-valuemax="480" tabindex="0" title="Drag to resize · double-click to reset"></div>
@@ -205,6 +251,7 @@ input.bar{flex:1;min-width:40px;accent-color:var(--accent);margin:0;height:16px}
   <div class="now">
     <div id="npCover"></div>
     <div class="txt"><div class="t" id="npTitle">Nothing playing</div><div class="a" id="npArtist">Choose a track</div></div>
+    <button class="iconBtn npAdd" id="npAdd" aria-label="Add the playing song to a playlist" title="Add to playlist" style="display:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M3 6h12M3 12h12M3 18h8M18 14v8M14 18h8"/></svg></button>
   </div>
   <div class="center">
     <div class="ctrls">
@@ -243,6 +290,9 @@ input.bar{flex:1;min-width:40px;accent-color:var(--accent);margin:0;height:16px}
 </footer>
 </div>
 <div id="toast" role="status" aria-live="polite"></div>
+<div id="dlgWrap" role="dialog" aria-modal="true" aria-labelledby="dlgTitle"><div class="dlgCard"><h3 id="dlgTitle"></h3><p id="dlgText"></p>
+  <input class="field" id="dlgInput" type="text" maxlength="120" autocomplete="off" spellcheck="false">
+  <div class="dlgBtns"><button class="pill small" id="dlgCancel" type="button">Cancel</button><button class="pill small primary" id="dlgOk" type="button">OK</button></div></div></div>
 <script>
 "use strict";
 const $ = s => document.querySelector(s);
@@ -426,8 +476,8 @@ async function openLibrary(root, quiet) {
     const sameRoot = libRoot === scan.root;
     libRoot = scan.root; libName = scan.rootName;
     try { localStorage.setItem("musicFolder", libRoot); } catch (_) {}
-    const where = new Map();
-    library.forEach((A, a) => A.albums.forEach((al, b) => al.tracks.forEach((tr, t) => where.set(tr.path, { a, b, t }))));
+    indexLibrary();
+    const where = trackIndex;
     if (sameRoot && playingPath && where.has(playingPath)) {
       queue = queuePaths.map(p => where.get(p)).filter(Boolean);
       qPos = queue.findIndex(q => library[q.a].albums[q.b].tracks[q.t].path === playingPath);
@@ -440,7 +490,7 @@ async function openLibrary(root, quiet) {
       audio.pause(); if (audio.dataset.url) { URL.revokeObjectURL(audio.dataset.url); audio.dataset.url = ""; } audio.removeAttribute("src"); audio.load();
     }
     $("#folderName").textContent = libName; $("#folderBtn").title = libRoot;
-    renderSidebar(); renderArtist(); updateNowPlaying(); syncPlay();
+    renderSidebar(); renderMain(); updateNowPlaying(); syncPlay();
     const n = library.reduce((s, A) => s + A.albums.reduce((u, al) => u + al.tracks.length, 0), 0);
     if (!quiet) toast(n ? `${library.length} artists · ${n} tracks` : "No audio files found in that folder.");
   } catch (err) {
@@ -493,7 +543,28 @@ function matches(a) {
   return a.name.toLocaleLowerCase().includes(q) || a.albums.some(al => al.title.toLocaleLowerCase().includes(q) || al.tracks.some(t => t.title.toLocaleLowerCase().includes(q)));
 }
 function renderSidebar() {
-  const nav = $("#artists"); nav.textContent = "";
+  const nav = $("#artists"); const keep = nav.scrollTop; nav.textContent = "";
+  // playlists
+  const ph = document.createElement("div"); ph.className = "secHead";
+  ph.innerHTML = `<span>Playlists</span><button class="iconBtn" id="newPl" aria-label="New playlist" title="New playlist (Ctrl/⌘+N)">${PLUS_ICON}</button>`;
+  ph.querySelector("#newPl").addEventListener("click", newPlaylistDialog);
+  nav.append(ph);
+  const q = query.toLocaleLowerCase();
+  const pls = playlists.filter(p => !q || p.name.toLocaleLowerCase().includes(q)).sort((x, y) => x.name.localeCompare(y.name));
+  pls.forEach(p => {
+    const b = document.createElement("button");
+    b.className = "artistBtn plBtn"; b.setAttribute("aria-current", p.id === selPlaylist);
+    b.innerHTML = `${PL_ICON}<span></span><span></span>`;
+    b.children[1].textContent = p.name; b.children[2].textContent = p.tracks.length;
+    b.addEventListener("click", () => { selPlaylist = p.id; closeViz(); renderSidebar(); renderMain(); });
+    b.addEventListener("contextmenu", e => { e.preventDefault(); selPlaylist = p.id; renderSidebar(); renderMain(); });
+    nav.append(b);
+  });
+  if (!pls.length) { const e = document.createElement("div"); e.className = "emptyPl"; e.textContent = playlists.length ? "No matching playlists." : "No playlists yet."; nav.append(e); }
+  // artists
+  const ah = document.createElement("div"); ah.className = "secHead artistsHead";
+  ah.innerHTML = '<span>Artists</span><span class="meta" style="padding-right:6px">A–Z</span>';
+  nav.append(ah);
   let last = "", have = new Set(), shown = 0;
   library.forEach((a, i) => {
     if (!matches(a)) return;
@@ -505,13 +576,14 @@ function renderSidebar() {
       nav.append(h); last = letter; have.add(letter);
     }
     const b = document.createElement("button");
-    b.className = "artistBtn"; b.setAttribute("aria-current", i === selArtist);
+    b.className = "artistBtn"; b.setAttribute("aria-current", i === selArtist && !selPlaylist);
     b.innerHTML = "<span></span><span></span>";
     b.firstChild.textContent = a.name; b.lastChild.textContent = a.albums.length;
-    b.addEventListener("click", () => { selArtist = i; closeViz(); renderSidebar(); renderArtist(); });
+    b.addEventListener("click", () => { selArtist = i; selPlaylist = null; closeViz(); renderSidebar(); renderMain(); });
     nav.append(b);
   });
   if (!shown) { const e = document.createElement("div"); e.className = "empty"; e.textContent = library.length ? "No matches." : "No music yet."; nav.append(e); }
+  nav.scrollTop = keep;
   const rail = $("#rail"); rail.textContent = "";
   "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(l => {
     const b = document.createElement("button"); b.textContent = l; b.className = have.has(l) ? "has" : "";
@@ -521,7 +593,9 @@ function renderSidebar() {
   });
 }
 function renderArtist() {
-  const page = $("#page"); page.textContent = ""; page.scrollTop = 0;
+  const page = $("#page");
+  const view = "artist:" + selArtist, keep = page.dataset.view === view ? page.scrollTop : 0;
+  page.textContent = ""; page.dataset.view = view;
   const A = library[selArtist];
   if (!A) {
     page.innerHTML = `<div class="welcome"><img src="icon.png" alt=""><h1>${libRoot ? "No music found" : "Welcome to Musica"}</h1>
@@ -546,29 +620,296 @@ function renderArtist() {
     const sec = document.createElement("section"); sec.className = "album";
     sec.append(coverEl(al, 176, 10));
     const body = document.createElement("div"); body.className = "albumBody";
+    const hh = document.createElement("div"); hh.className = "albumHead";
     const h = document.createElement("h2"); h.textContent = al.title;
+    const add = document.createElement("button"); add.className = "iconBtn"; add.innerHTML = LIST_ADD_ICON;
+    add.setAttribute("aria-label", `Add the album “${al.title}” to a playlist`); add.title = "Add album to playlist";
+    add.addEventListener("click", e => { e.stopPropagation(); openPlMenu(add, al.tracks.map(t => t.path)); });
+    hh.append(h, add);
     const aTot = al.tracks.reduce((u, t) => u + (t.dur || 0), 0);
     const m = document.createElement("div"); m.className = "meta"; m.style.marginTop = "4px";
     m.textContent = [al.cat, al.tracks.length + " tracks", aTot ? Math.max(1, Math.round(aTot / 60)) + " min" : ""].filter(Boolean).join(" · ");
     const list = document.createElement("div"); list.className = "tracks";
-    al.tracks.forEach((t, ti) => {
-      const b = document.createElement("button"); b.className = "trk"; b.dataset.a = selArtist; b.dataset.b = ai; b.dataset.t = ti;
-      b.innerHTML = '<span class="n"></span><span class="t"></span><span class="d"></span>';
-      b.children[1].textContent = t.title; b.children[2].textContent = t.dur ? fmt(t.dur) : "";
-      b.addEventListener("click", () => playFrom(selArtist, ai, ti));
-      list.append(b);
-    });
-    body.append(h, m, list); sec.append(body); wrap.append(sec);
+    const a = selArtist;
+    al.tracks.forEach((t, ti) => list.append(trackRow({ a, b: ai, t: ti }, t.label, { onPlay: () => playFrom(a, ai, ti) })));
+    body.append(hh, m, list); sec.append(body); wrap.append(sec);
   });
   markCurrent();
+  page.scrollTop = keep;
 }
 function markCurrent() {
-  document.querySelectorAll(".trk").forEach(b => {
-    const on = current && +b.dataset.a === current.a && +b.dataset.b === current.b && +b.dataset.t === current.t;
+  document.querySelectorAll(".trk[data-a]").forEach(b => {
+    const on = !!current && +b.dataset.a === current.a && +b.dataset.b === current.b && +b.dataset.t === current.t;
     b.setAttribute("aria-current", on);
-    const n = b.children[0];
-    if (on) n.innerHTML = EQ_ICON; else n.textContent = library[+b.dataset.a].albums[+b.dataset.b].tracks[+b.dataset.t].label;
+    const n = b.querySelector(".n");
+    if (on) n.innerHTML = EQ_ICON; else n.textContent = b.dataset.label;
   });
+}
+
+/* =====================  Playlists  ===================== */
+// Stored by the native core in the app's data folder as { version: 1, playlists: [{ id, name, created, tracks: [path, …] }] }.
+// Songs are referenced by file path, so playlists survive rescans; songs not in the current folder are shown greyed out.
+let playlists = [], selPlaylist = null, trackIndex = new Map();
+const PLUS_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
+const LIST_ADD_ICON = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M3 6h12M3 12h12M3 18h8M18 14v8M14 18h8"/></svg>';
+const PL_ICON = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h13M3 12h13M3 18h7"/><circle cx="17" cy="18" r="3"/><path d="M20 18V9l2-1"/></svg>';
+const X_ICON = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+const CHECK_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
+const trackAt = l => library[l.a].albums[l.b].tracks[l.t];
+const newId = () => "pl" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const songs = n => n === 1 ? "1 song" : `${n} songs`;
+function indexLibrary() {
+  trackIndex = new Map();
+  library.forEach((A, a) => A.albums.forEach((al, b) => al.tracks.forEach((tr, t) => trackIndex.set(tr.path, { a, b, t }))));
+}
+async function loadPlaylists() {
+  try {
+    const raw = await invoke("load_playlists");
+    const data = raw ? JSON.parse(raw) : null;
+    playlists = (data && Array.isArray(data.playlists) ? data.playlists : [])
+      .filter(p => p && typeof p.name === "string" && Array.isArray(p.tracks))
+      .map(p => ({ id: String(p.id || newId()), name: p.name, created: p.created || Date.now(),
+                   tracks: [...new Set(p.tracks.filter(x => typeof x === "string"))] }));
+  } catch (err) { playlists = []; toast("Couldn't read the playlists: " + err); }
+  renderSidebar(); if (selPlaylist) renderMain();
+}
+let saveChain = Promise.resolve();
+function savePlaylists() {
+  const json = JSON.stringify({ version: 1, playlists });
+  saveChain = saveChain.then(() => invoke("save_playlists", { json })).catch(err => toast("Couldn't save the playlists: " + err));
+}
+function uniqueName(base) {
+  const taken = new Set(playlists.map(p => p.name.toLocaleLowerCase()));
+  let name = base, i = 2; while (taken.has(name.toLocaleLowerCase())) name = `${base} ${i++}`;
+  return name;
+}
+function refreshPlaylistViews() { renderSidebar(); if (selPlaylist) renderMain(); }
+function createPlaylist(name, paths = []) {
+  const p = { id: newId(), name: name.trim() || uniqueName("New playlist"), created: Date.now(), tracks: [...new Set(paths)] };
+  playlists.push(p); savePlaylists(); refreshPlaylistViews();
+  return p;
+}
+function addToPlaylist(p, paths) {
+  let added = 0;
+  for (const x of paths) if (!p.tracks.includes(x)) { p.tracks.push(x); added++; }
+  if (added) { savePlaylists(); refreshPlaylistViews(); }
+  return added;
+}
+function removeFromPlaylist(p, paths) {
+  const drop = new Set(paths), before = p.tracks.length;
+  p.tracks = p.tracks.filter(x => !drop.has(x));
+  if (p.tracks.length !== before) { savePlaylists(); refreshPlaylistViews(); }
+}
+function deletePlaylist(p) {
+  playlists = playlists.filter(x => x.id !== p.id);
+  if (selPlaylist === p.id) selPlaylist = null;
+  savePlaylists(); renderSidebar(); renderMain();
+}
+function renderMain() { if (selPlaylist && playlists.some(p => p.id === selPlaylist)) renderPlaylist(); else { selPlaylist = null; renderArtist(); } }
+
+/* One track row, shared by artist pages and playlists: click to play, ⊕ to add to playlists, × to remove. */
+function trackRow(loc, label, opts) {
+  const tr = trackAt(loc);
+  const row = document.createElement("div");
+  row.className = "trk" + (opts.onRemove ? " pl" : "");
+  row.dataset.a = loc.a; row.dataset.b = loc.b; row.dataset.t = loc.t; row.dataset.label = label;
+  row.innerHTML = `<button class="trkPlay" type="button"><span class="n"></span><span class="t"><span class="tt"></span></span></button><span class="d"></span>`
+    + `<button class="iconBtn trkAdd" type="button" title="Add to playlist" aria-haspopup="menu">${LIST_ADD_ICON}</button>`
+    + (opts.onRemove ? `<button class="iconBtn trkDel" type="button" title="Remove from this playlist">${X_ICON}</button>` : "");
+  row.querySelector(".tt").textContent = tr.title;
+  if (opts.sub) { const s = document.createElement("span"); s.className = "sub"; s.textContent = opts.sub; row.querySelector(".t").append(s); }
+  row.querySelector(".n").textContent = label;
+  row.querySelector(".d").textContent = tr.dur ? fmt(tr.dur) : "";
+  const addBtn = row.querySelector(".trkAdd");
+  addBtn.setAttribute("aria-label", `Add “${tr.title}” to a playlist`);
+  row.addEventListener("click", e => { if (!e.target.closest(".iconBtn")) opts.onPlay(); });
+  addBtn.addEventListener("click", e => { e.stopPropagation(); openPlMenu(addBtn, [tr.path]); });
+  row.addEventListener("contextmenu", e => { e.preventDefault(); openPlMenu({ x: e.clientX, y: e.clientY }, [tr.path]); });
+  if (opts.onRemove) {
+    const del = row.querySelector(".trkDel");
+    del.setAttribute("aria-label", `Remove “${tr.title}” from this playlist`);
+    del.addEventListener("click", e => { e.stopPropagation(); opts.onRemove(); });
+  }
+  return row;
+}
+
+function renderPlaylist() {
+  const p = playlists.find(x => x.id === selPlaylist);
+  const page = $("#page"), view = "pl:" + p.id, keep = page.dataset.view === view ? page.scrollTop : 0;
+  page.textContent = ""; page.dataset.view = view;
+  const items = p.tracks.map(path => ({ path, loc: trackIndex.get(path) }));
+  const avail = items.filter(i => i.loc);
+  const tot = avail.reduce((s, i) => s + (trackAt(i.loc).dur || 0), 0);
+  const missing = items.length - avail.length;
+  page.insertAdjacentHTML("beforeend", `<div class="plHead"><div class="mosaic"></div><div style="min-width:0">
+      <div class="eyebrow">Playlist</div><h1></h1><div class="meta"></div></div></div>
+    <div class="actions">
+      <button class="pill primary" id="plPlay"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>Play</button>
+      <button class="pill" id="plShuffle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>Shuffle</button>
+      <button class="pill" id="plRename">Rename</button>
+      <button class="pill" id="plDelete">Delete</button>
+    </div><div class="plList"></div>`);
+  page.querySelector("h1").textContent = p.name;
+  page.querySelector(".meta").textContent = songs(items.length) + (tot ? ` · ${Math.max(1, Math.round(tot / 60))} min` : "")
+    + (missing ? ` · ${missing} not in the current music folder` : "");
+  // cover mosaic: the first four different albums
+  const mos = page.querySelector(".mosaic"), seen = new Set(), albums = [];
+  for (const i of avail) { const al = library[i.loc.a].albums[i.loc.b]; if (!seen.has(al.key)) { seen.add(al.key); albums.push(al); } if (albums.length === 4) break; }
+  if (!albums.length) { mos.classList.add("one"); mos.innerHTML = `<div class="ph">${PL_ICON.replace('width="15" height="15"', 'width="56" height="56"')}</div>`; }
+  else if (albums.length < 4) { mos.classList.add("one"); mos.append(coverEl(albums[0], 176, 0)); }
+  else albums.forEach(al => mos.append(coverEl(al, 88, 0)));
+  const playBtn = page.querySelector("#plPlay"), shufBtn = page.querySelector("#plShuffle");
+  playBtn.disabled = shufBtn.disabled = !avail.length;
+  playBtn.addEventListener("click", () => { shuffle = false; syncModes(); playPlaylist(p, 0); });
+  shufBtn.addEventListener("click", () => { shuffle = true; syncModes(); playPlaylist(p, 0, true); });
+  page.querySelector("#plRename").addEventListener("click", () => renamePlaylistDialog(p));
+  page.querySelector("#plDelete").addEventListener("click", () => deletePlaylistDialog(p));
+  const list = page.querySelector(".plList");
+  if (!items.length) {
+    list.innerHTML = '<p class="meta" style="line-height:1.6">This playlist is empty. To add songs, use the playlist button next to any track or album, right-click a track, or use the button beside the song that is playing.</p>';
+  }
+  items.forEach((it, idx) => {
+    if (it.loc) {
+      const tr = trackAt(it.loc), A = library[it.loc.a], al = A.albums[it.loc.b];
+      list.append(trackRow(it.loc, String(idx + 1), { sub: `${A.name} · ${al.title}`, onPlay: () => playPlaylist(p, idx), onRemove: () => removeFromPlaylist(p, [tr.path]) }));
+    } else {
+      const row = document.createElement("div"); row.className = "trk pl missing";
+      row.innerHTML = `<div class="trkPlay"><span class="n"></span><span class="t"><span class="tt"></span><span class="sub">Not in the current music folder</span></span></div><span class="d"></span><span></span><button class="iconBtn trkDel" type="button" title="Remove from this playlist">${X_ICON}</button>`;
+      row.querySelector(".n").textContent = idx + 1;
+      row.querySelector(".tt").textContent = lastName(it.path);
+      row.title = it.path;
+      row.querySelector(".trkDel").setAttribute("aria-label", "Remove this missing song from the playlist");
+      row.querySelector(".trkDel").addEventListener("click", () => removeFromPlaylist(p, [it.path]));
+      list.append(row);
+    }
+  });
+  markCurrent();
+  page.scrollTop = keep;
+}
+function playPlaylist(p, idx, shuf) {
+  const list = [], start = { i: 0 };
+  p.tracks.forEach((path, i) => { const loc = trackIndex.get(path); if (loc) { if (i <= idx) start.i = list.length; list.push({ ...loc }); } });
+  if (!list.length) { toast("None of this playlist's songs are in the current music folder."); return; }
+  // if the clicked song is itself available, start there
+  const clicked = trackIndex.get(p.tracks[idx]);
+  const s = clicked ? list.findIndex(q => q.a === clicked.a && q.b === clicked.b && q.t === clicked.t) : start.i;
+  startQueue(list, Math.max(0, s), shuf);
+}
+
+/* ---- "Add to playlist" menu: tick/untick existing playlists, or create a new one with the songs in it ---- */
+let menuAnchor = null;
+function closePlMenu() {
+  const m = $("#plMenu"); if (m) m.remove();
+  if (menuAnchor && menuAnchor.setAttribute) { menuAnchor.setAttribute("aria-expanded", "false"); if (document.activeElement === document.body) menuAnchor.focus(); }
+  menuAnchor = null;
+}
+function openPlMenu(anchor, paths) {
+  closePlMenu();
+  if (!paths.length) return;
+  menuAnchor = anchor;
+  if (anchor.setAttribute) anchor.setAttribute("aria-expanded", "true");
+  const m = document.createElement("div"); m.id = "plMenu"; m.setAttribute("role", "menu");
+  const single = paths.length === 1;
+  const render = () => {
+    m.textContent = "";
+    const h = document.createElement("div"); h.className = "mh"; h.textContent = single ? "Add to playlist" : `Add ${songs(paths.length)} to playlist`;
+    m.append(h);
+    [...playlists].sort((x, y) => x.name.localeCompare(y.name)).forEach(p => {
+      const all = paths.every(x => p.tracks.includes(x));
+      const b = document.createElement("button"); b.className = "mi"; b.type = "button";
+      b.setAttribute("role", "menuitemcheckbox"); b.setAttribute("aria-checked", all);
+      b.innerHTML = `<span class="chk">${all ? CHECK_ICON : ""}</span><span class="nm"></span><span class="ct"></span>`;
+      b.children[1].textContent = p.name; b.children[2].textContent = p.tracks.length;
+      b.addEventListener("click", () => {
+        if (all && single) { removeFromPlaylist(p, paths); toast(`Removed from “${p.name}”`); }
+        else if (all) toast(`Already in “${p.name}”`);
+        else { const n = addToPlaylist(p, paths); toast(single ? `Added to “${p.name}”` : `${songs(n)} added to “${p.name}”`); }
+        render(); m.querySelectorAll(".mi")[[...playlists].sort((x, y) => x.name.localeCompare(y.name)).indexOf(p)]?.focus();
+      });
+      m.append(b);
+    });
+    if (playlists.length) m.append(document.createElement("hr"));
+    const nb = document.createElement("button"); nb.className = "mi"; nb.type = "button"; nb.setAttribute("role", "menuitem");
+    nb.innerHTML = `<span class="chk">${PLUS_ICON}</span><span class="nm">New playlist…</span>`;
+    nb.addEventListener("click", () => {
+      const f = document.createElement("form"); f.className = "mform";
+      f.innerHTML = `<input class="field" type="text" maxlength="120" aria-label="New playlist name" autocomplete="off" spellcheck="false"><button class="okBtn" type="submit">Create</button>`;
+      const inp = f.querySelector("input"); inp.value = uniqueName("New playlist");
+      f.addEventListener("submit", e => {
+        e.preventDefault();
+        const p = createPlaylist(inp.value.trim() || uniqueName("New playlist"), paths);
+        toast(`Created “${p.name}” with ${songs(p.tracks.length)}`);
+        closePlMenu();
+      });
+      nb.replaceWith(f); inp.focus(); inp.select();
+    });
+    m.append(nb);
+  };
+  render();
+  document.body.append(m);
+  // place next to the button (or at the pointer), kept inside the window
+  const r = anchor.getBoundingClientRect ? anchor.getBoundingClientRect() : { left: anchor.x, right: anchor.x, top: anchor.y, bottom: anchor.y };
+  const w = m.offsetWidth, h = m.offsetHeight;
+  let x = anchor.getBoundingClientRect ? r.right - w : r.left, y = r.bottom + 6;
+  if (y + h > innerHeight - 8) y = Math.max(8, r.top - h - 6);
+  x = clamp(x, 8, innerWidth - w - 8);
+  m.style.left = x + "px"; m.style.top = y + "px";
+  (m.querySelector(".mi") || m).focus();
+}
+document.addEventListener("mousedown", e => {
+  const m = $("#plMenu");
+  if (m && !m.contains(e.target) && !(menuAnchor && menuAnchor.contains && menuAnchor.contains(e.target))) closePlMenu();
+});
+document.addEventListener("keydown", e => {
+  const m = $("#plMenu"); if (!m) return;
+  if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); closePlMenu(); return; }
+  if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+    const items = [...m.querySelectorAll(".mi, input")]; if (!items.length) return;
+    e.preventDefault(); e.stopPropagation();
+    const i = items.indexOf(document.activeElement);
+    items[(i + (e.key === "ArrowDown" ? 1 : -1) + items.length) % items.length].focus();
+  }
+}, true);
+addEventListener("resize", closePlMenu);
+$("#page").addEventListener("scroll", closePlMenu);
+
+/* ---- Small dialogs (name a playlist, confirm deletion) ---- */
+function askDialog({ title, text = "", value = null, ok = "OK", danger = false }) {
+  return new Promise(resolve => {
+    const wrap = $("#dlgWrap"), input = $("#dlgInput"), okBtn = $("#dlgOk"), cancel = $("#dlgCancel");
+    const before = document.activeElement;
+    $("#dlgTitle").textContent = title; $("#dlgText").textContent = text; $("#dlgText").style.display = text ? "" : "none";
+    input.style.display = value === null ? "none" : ""; input.value = value ?? "";
+    okBtn.textContent = ok; okBtn.className = "pill small " + (danger ? "danger" : "primary");
+    wrap.classList.add("on");
+    (value === null ? okBtn : input).focus(); if (value !== null) input.select();
+    const done = v => { wrap.classList.remove("on"); okBtn.onclick = cancel.onclick = wrap.onkeydown = wrap.onmousedown = null; if (before && before.focus) before.focus(); resolve(v); };
+    okBtn.onclick = () => done(value === null ? true : input.value.trim());
+    cancel.onclick = () => done(null);
+    wrap.onmousedown = e => { if (e.target === wrap) done(null); };
+    wrap.onkeydown = e => {
+      e.stopPropagation();
+      if (e.key === "Escape") done(null);
+      else if (e.key === "Enter" && (value === null || document.activeElement === input)) { e.preventDefault(); okBtn.click(); }
+      else if (e.key === "Tab") { const f = [input, cancel, okBtn].filter(x => x.style.display !== "none"); const i = f.indexOf(document.activeElement);
+        e.preventDefault(); f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus(); }
+    };
+  });
+}
+async function newPlaylistDialog() {
+  const name = await askDialog({ title: "New playlist", value: uniqueName("New playlist"), ok: "Create" });
+  if (name === null) return;
+  const p = createPlaylist(name || uniqueName("New playlist"));
+  selPlaylist = p.id; closeViz(); renderSidebar(); renderMain();
+}
+async function renamePlaylistDialog(p) {
+  const name = await askDialog({ title: "Rename playlist", value: p.name, ok: "Rename" });
+  if (!name || name === p.name) return;
+  p.name = name; savePlaylists(); refreshPlaylistViews();
+}
+async function deletePlaylistDialog(p) {
+  const ok = await askDialog({ title: `Delete “${p.name}”?`, text: `The playlist and its list of ${songs(p.tracks.length)} will be removed. The music files themselves are not touched.`, ok: "Delete", danger: true });
+  if (ok) { deletePlaylist(p); toast(`Deleted “${p.name}”`); }
 }
 
 /* =====================  Playback & queue  ===================== */
@@ -577,9 +918,12 @@ const MIME = { mp3: "audio/mpeg", flac: "audio/flac", wav: "audio/wav", ogg: "au
   m4a: "audio/mp4", mp4: "audio/mp4", aac: "audio/aac", aif: "audio/aiff", aiff: "audio/aiff", aifc: "audio/aiff" };
 function playFrom(a, b, t, shuf) {
   const A = library[a]; if (!A) return;
-  queue = [];
-  A.albums.forEach((al, ai) => al.tracks.forEach((_, ti) => queue.push({ a, b: ai, t: ti })));
-  let start = queue.findIndex(q => q.b === b && q.t === t);
+  const list = [];
+  A.albums.forEach((al, ai) => al.tracks.forEach((_, ti) => list.push({ a, b: ai, t: ti })));
+  startQueue(list, Math.max(0, list.findIndex(q => q.b === b && q.t === t)), shuf);
+}
+function startQueue(list, start, shuf) {
+  queue = list.slice(); if (!queue.length) return;
   if (shuf || shuffle) {
     const first = shuf ? queue.splice(Math.floor(Math.random() * queue.length), 1)[0] : queue.splice(start, 1)[0];
     for (let i = queue.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [queue[i], queue[j]] = [queue[j], queue[i]]; }
@@ -668,6 +1012,7 @@ function updateNowPlaying() {
   const c = current;
   $("#npTitle").textContent = c ? c.track.title : "Nothing playing";
   $("#npArtist").textContent = c ? c.artist.name : (library.length ? "Choose a track" : "");
+  $("#npAdd").style.display = c ? "" : "none";
   const holder = $("#npCover"); holder.textContent = ""; holder.append(coverEl(c && c.album, 52, 6));
   $("#vizNow").innerHTML = ""; if (c) { $("#vizNow").textContent = c.track.title + " "; const s = document.createElement("span"); s.textContent = "— " + c.artist.name; $("#vizNow").append(s); }
   document.title = c ? `${c.track.title} — ${c.artist.name} · Musica` : "Musica";
@@ -779,11 +1124,15 @@ try { const v = localStorage.getItem("volume"); if (v != null) $("#vol").value =
 audio.volume = $("#vol").value / 100;
 $("#search").addEventListener("input", e => { query = e.target.value.trim(); renderSidebar(); });
 $("#folderBtn").addEventListener("click", chooseFolder);
+$("#npAdd").addEventListener("click", e => { if (current) openPlMenu(e.currentTarget, [current.track.path]); });
+// no browser-style context menu in the app (right-click on a track opens the playlist menu instead)
+document.addEventListener("contextmenu", e => { if (!e.target.closest("input, textarea")) e.preventDefault(); });
 $("#rescanBtn").addEventListener("click", () => { if (libRoot) openLibrary(libRoot); });
 addEventListener("keydown", e => {
   const tag = e.target.tagName;
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "f") { e.preventDefault(); $("#search").focus(); return; }
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "o") { e.preventDefault(); chooseFolder(); return; }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "n") { e.preventDefault(); newPlaylistDialog(); return; }
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "r") { e.preventDefault(); if (libRoot) openLibrary(libRoot); return; }
   if (tag === "INPUT" && e.target.type !== "range" && e.target.type !== "checkbox") return;
   if (tag === "SELECT") return;
@@ -825,7 +1174,8 @@ addEventListener("resize", () => setSideW(sideW));
 
 let savedTheme = "dark";
 try { savedTheme = localStorage.getItem("theme") || "dark"; } catch (_) {}
-setTheme(savedTheme); syncModes(); syncSliders(); renderSidebar(); renderArtist(); updateNowPlaying();
+setTheme(savedTheme); syncModes(); syncSliders(); renderSidebar(); renderMain(); updateNowPlaying();
+loadPlaylists();
 (async () => {
   // a folder given on the command line wins; otherwise reopen the last folder
   const arg = await invoke("initial_folder").catch(() => null);

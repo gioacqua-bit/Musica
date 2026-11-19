@@ -16,6 +16,7 @@ Musica plays the music in a folder on your computer. It reads the tags of every 
 - **Open a folder from the command line**: `musica /path/to/music` (also used by "Open with Musica" in file managers).
 - **Sorted by artist.** Uses the *album artist* tag, then *artist*, then the folder name. A leading "The" is ignored when sorting. Albums are ordered by year, tracks by disc and track number.
 - **Album covers.** Any image in an album folder is used as its cover. With several images, one named `cover`, `folder`, `front`, `album` or `artwork` wins; otherwise the largest. Artwork embedded in the files is used when the folder has no image.
+- **Playlists.** Create, rename and delete playlists; a song can be in several playlists. Add songs with the button next to any track, album or the playing song, or by right-clicking a track; the same menu can create a new playlist on the spot. Playlists are kept in the app's data folder and survive rescans.
 - **Player.** Play/pause, previous/next, shuffle, repeat (all / one), seek, volume, search, OS media keys where the system webview supports them.
 - **Light and dark themes** (light theme below), a resizable sidebar, and the window remembers your theme, volume and sidebar width.
 - **Visualizer** (<kbd>V</kbd>): around 260 000 particles (adjustable up to 1 million) simulated on the GPU along the Aizawa attractor.
@@ -26,6 +27,10 @@ Musica plays the music in a folder on your computer. It reads the tags of every 
   - A wandering camera drifts, tilts and rolls around the attractor. Drag to steer it, scroll to zoom.
 
 <p align="center"><img src="docs/visualizer-light.png" width="820" alt="Musica in the light theme with the visualizer settings open"></p>
+
+## Changes
+
+See [IMPROVEMENTS.md](IMPROVEMENTS.md) for the version history and planned improvements.
 
 ## Install
 
@@ -69,6 +74,7 @@ On Linux the `.deb` and `.rpm` packages pull in the usual GStreamer plugins. Wit
 | <kbd>Esc</kbd> | Close the visualizer |
 | <kbd>L</kbd> | Light / dark theme |
 | <kbd>Ctrl/⌘+F</kbd> | Search |
+| <kbd>Ctrl/⌘+N</kbd> | New playlist |
 | <kbd>Ctrl/⌘+O</kbd> | Choose music folder |
 | <kbd>Ctrl/⌘+R</kbd> | Rescan music folder |
 
@@ -114,7 +120,7 @@ The workflow can also be started by hand from the *Actions* tab.
 
 ```
 src/                    interface (HTML/CSS/JS), bundled Inter font
-src-tauri/src/lib.rs    commands: pick_folder, scan_library, read_file, embedded_cover, decode_wav
+src-tauri/src/lib.rs    commands: pick_folder, scan_library, read_file, embedded_cover, decode_wav, load/save_playlists
 src-tauri/src/library.rs  folder scan, tag reading, cover selection
 src-tauri/src/decode.rs   fallback decoder → WAV
 scripts/make_icon.py    renders the app icon from the Aizawa attractor
